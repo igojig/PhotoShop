@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление фестивалями</title>
+</head>
+<body>
+    <div th:if="${festivals.size()>0}">
+        <label for="selFestival">Выберите фестиваль</label>
+        <select id="selFestival">
+            <option th:each="fest : ${festivals}"></option>
+        </select>
+    </div>
+    <div th:unless="${festivals.size()>0}">
+        <p>Список фестивалей пуст</p>
+    </div>
+</body>
+</html>
