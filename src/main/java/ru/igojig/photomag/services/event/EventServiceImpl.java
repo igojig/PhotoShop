@@ -1,6 +1,7 @@
 package ru.igojig.photomag.services.event;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.igojig.photomag.entities.Event;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EventServiceImpl implements EventService {
 
     private final EventRepository eventRepository;
@@ -34,24 +36,30 @@ public class EventServiceImpl implements EventService {
 
     @Override
     @Transactional
-    public Event create(Long festId, Long roomId, Event event) {
-        Festival fest=festivalService.findById(festId);
-        Room room=roomService.findById(roomId);
-        event.setRoom(room);
-        event.setFestival(fest);
+    public Event create(Event event) {
+//        Festival fest=festivalService.findById(festId);
+//        Room room=roomService.findById(roomId);
+//        event.setRoom(room);
+//        event.setFestival(fest);
         return eventRepository.save(event);
     }
 
     @Override
     @Transactional
-    public Event update(Long id, Long festId, Long roomId, Event event) {
+    public Event update(Long id,  Event event) {
+        log.info("Before update");
         Event updEvent=eventRepository.findById(id).orElseThrow();
-        Festival festival=festivalService.findById(festId);
-        Room room=roomService.findById(roomId);
+//        Festival festival=festivalService.findById(event.getFestival().getId());
+//        Room room=roomService.findById(event.getRoom().getId());
+//        updEvent.setName(event.getName());
+//        updEvent.setStartDate(event.getStartDate());
+//        updEvent.setFestival(festival);
+//        updEvent.setRoom(room);
         updEvent.setName(event.getName());
         updEvent.setStartDate(event.getStartDate());
-        updEvent.setFestival(festival);
-        updEvent.setRoom(room);
+        updEvent.setRoom(event.getRoom());
+        updEvent.setFestival(event.getFestival());
+        log.info("after update");
         return updEvent;
     }
 

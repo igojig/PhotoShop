@@ -2,7 +2,8 @@ package ru.igojig.photomag.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.igojig.photomag.entities.Room;
+import ru.igojig.photomag.converters.RoomConverter;
+import ru.igojig.photomag.dtos.RoomDto;
 import ru.igojig.photomag.services.Room.RoomService;
 
 import java.util.List;
@@ -13,25 +14,35 @@ import java.util.List;
 @CrossOrigin(value = "http://localhost:4200")
 public class RoomController {
     private final RoomService roomService;
+    private final RoomConverter roomConverter;
 
     @GetMapping("/halls/{id}/rooms")
-    public List<Room> findAllByHallId(@PathVariable("id") Long id){
-        return roomService.findAllByHallId(id);
+    public List<RoomDto> findAllByHallId(@PathVariable("id") Long id){
+        return roomService.findAllByHallId(id).stream()
+                .map(roomConverter::entityToDto)
+                .toList();
+    }
+
+    @GetMapping("/rooms")
+    public List<RoomDto> findAl(){
+        return roomService.findAll().stream()
+                .map(roomConverter::entityToDto)
+                .toList();
     }
 
     @GetMapping("/rooms/{id}")
-    public Room findById(@PathVariable("id") Long id){
-        return roomService.findById(id);
+    public RoomDto findById(@PathVariable("id") Long id){
+        return roomConverter.entityToDto(roomService.findById(id));
     }
 
     @PostMapping("/halls/{id}/rooms")
-    public Room create(@PathVariable("id") Long id, @RequestBody Room room){
-        return roomService.create(id, room);
+    public RoomDto create(@PathVariable("id") Long id, @RequestBody RoomDto roomDto){
+        return roomConverter.entityToDto(roomService.create(id, roomConverter.dtoToEntity(roomDto)));
     }
 
     @PutMapping("/rooms/{id}")
-    public Room update(@PathVariable("id") Long id, @RequestBody Room room){
-        return roomService.update(id, room);
+    public RoomDto update(@PathVariable("id") Long id, @RequestBody RoomDto roomDto){
+        return roomConverter.entityToDto(roomService.update(id, roomConverter.dtoToEntity(roomDto)));
     }
 
     @DeleteMapping("/halls/{id}/rooms")

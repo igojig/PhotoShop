@@ -27,6 +27,11 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    public List<Room> findAll() {
+        return roomRepository.findAll();
+    }
+
+    @Override
     @Transactional
     public Room create(Long id, Room room) {
         Hall hall=hallService.findById(id);

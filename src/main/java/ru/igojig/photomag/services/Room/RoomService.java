@@ -1,5 +1,6 @@
 package ru.igojig.photomag.services.Room;
 
+import ru.igojig.photomag.dtos.RoomDto;
 import ru.igojig.photomag.entities.Room;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface RoomService {
     void deleteAllByHallId(Long id);
 
     void deleteById(Long id);
+
+    List<Room> findAll();
 }
