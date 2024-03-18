@@ -2,6 +2,8 @@ package ru.igojig.photomag.services.event;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.igojig.photomag.entities.Event;
@@ -25,8 +27,8 @@ public class EventServiceImpl implements EventService {
     private final FestivalService festivalService;
 
     @Override
-    public List<Event> findAll() {
-        return eventRepository.findAll();
+    public Page<Event> findAll(Integer currentPage, Integer recordsPerPage) {
+        return eventRepository.findAll(PageRequest.of(currentPage, recordsPerPage));
     }
 
     @Override
@@ -60,6 +62,7 @@ public class EventServiceImpl implements EventService {
         updEvent.setRoom(event.getRoom());
         updEvent.setFestival(event.getFestival());
         log.info("after update");
+
         return updEvent;
     }
 
@@ -67,5 +70,10 @@ public class EventServiceImpl implements EventService {
     @Transactional
     public void deleteById(Long id) {
         eventRepository.deleteById(id);
+    }
+
+    @Override
+    public Long getCount() {
+        return eventRepository.count();
     }
 }

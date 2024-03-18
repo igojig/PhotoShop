@@ -1,8 +1,10 @@
 package ru.igojig.photomag.converters;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import ru.igojig.photomag.dtos.EventDto;
+import ru.igojig.photomag.dtos.PagebleEventDto;
 import ru.igojig.photomag.entities.Event;
 
 @Component
@@ -34,5 +36,16 @@ public class EventConverterImpl implements EventConverter {
         event.setRoom(roomConverter.dtoToEntity(eventDto.getRoomDto()));
 
         return event;
+    }
+
+    public PagebleEventDto pageableEntityToDto(Page<Event> pageEvent){
+        PagebleEventDto pagebleEventDto=new PagebleEventDto();
+        pagebleEventDto.setEventDtoList(pageEvent.getContent().stream()
+                .map(this::entityToDto)
+                .toList()
+        );
+        pagebleEventDto.setFirst(pageEvent.isFirst());
+        pagebleEventDto.setLast(pageEvent.isLast());
+        return pagebleEventDto;
     }
 }

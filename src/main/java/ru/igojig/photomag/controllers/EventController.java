@@ -2,9 +2,11 @@ package ru.igojig.photomag.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import ru.igojig.photomag.converters.EventConverter;
 import ru.igojig.photomag.dtos.EventDto;
+import ru.igojig.photomag.dtos.PagebleEventDto;
 import ru.igojig.photomag.entities.Event;
 import ru.igojig.photomag.services.event.EventService;
 
@@ -22,15 +24,14 @@ public class EventController {
     private final EventConverter eventConverter;
 
     @GetMapping("/events")
-    public List<EventDto> findAll() {
-        return eventService.findAll().stream()
-                .map(eventConverter::entityToDto)
-                .toList();
+    public PagebleEventDto findAll(@RequestParam("currentPage") Integer currentPage, @RequestParam("recordsPerPage") Integer recordsPerPage) {
+        return eventConverter.pageableEntityToDto(eventService.findAll(currentPage, recordsPerPage));
+
     }
 
     @GetMapping("/events/{id}")
     public EventDto findById(@PathVariable("id") Long id) {
-        System.out.println(id);
+//        System.out.println(id);
         return eventConverter.entityToDto(eventService.findById(id));
     }
 
@@ -53,6 +54,11 @@ public class EventController {
     @DeleteMapping("/events/{id}")
     public void deleteById(@PathVariable("id") Long id) {
         eventService.deleteById(id);
+    }
+
+    @GetMapping("/events/count")
+    public Long getCount(){
+        return eventService.getCount();
     }
 
 

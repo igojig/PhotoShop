@@ -1,12 +1,15 @@
 package ru.igojig.photomag.services.event;
 
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
 import ru.igojig.photomag.dtos.EventDto;
 import ru.igojig.photomag.entities.Event;
 
 import java.util.List;
 
+@Service
 public interface EventService {
-    List<Event> findAll();
+    Page<Event> findAll(Integer currentPage, Integer recordsPerPage);
 
     Event findById(Long id);
 
@@ -15,4 +18,7 @@ public interface EventService {
     Event update(Long id, Event event);
 
     void deleteById(Long id);
+
+    Long getCount();
+
 }
