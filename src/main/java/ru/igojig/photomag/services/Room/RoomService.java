@@ -1,13 +1,12 @@
 package ru.igojig.photomag.services.Room;
 
-import ru.igojig.photomag.dtos.RoomDto;
 import ru.igojig.photomag.entities.Room;
 
 import java.util.List;
 
 public interface RoomService {
 
-    List<Room> findAllByHallId(Long id);
+    List<Room> findAllLightByHallId(Long id);
 
     Room findById(Long id);
 

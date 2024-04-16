@@ -1,4 +1,4 @@
-package ru.igojig.photomag.dtos;
+package ru.igojig.photomag.dtos.events;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

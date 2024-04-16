@@ -2,7 +2,6 @@ package ru.igojig.photomag.services.event;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-import ru.igojig.photomag.dtos.EventDto;
 import ru.igojig.photomag.entities.Event;
 
 import java.util.List;
@@ -21,4 +20,5 @@ public interface EventService {
 
     Long getCount();
 
+    List<Event> findAllOld();
 }

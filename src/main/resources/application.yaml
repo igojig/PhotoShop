@@ -11,9 +11,10 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
-  #        properties:
+
+    open-in-view: false
   #            hibernate:
-  #                dialect: org.hibernate.dialect.MySQLDialect
+  #                dialect: org.hibernate.dialect.MySQLDialect spring.jpa.open-in-view=false
 
   #    spring.jpa.hibernate.ddl-auto=update
   datasource:

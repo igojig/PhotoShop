@@ -1,5 +1,7 @@
 package ru.igojig.photomag.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,11 +12,12 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "picture_info")
+@Table(name = "images")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PictureInfo {
+//@JsonIgnoreProperties({"hibernateLazyInitializer"})
+public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,19 +30,24 @@ public class PictureInfo {
     @Column(name = "file_path", nullable = false)
     private String filePath;
 
-    @ManyToOne(optional = false)
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id", nullable = false)
 //    @JsonIgnore
     private Event event;
 
-    @OneToOne(mappedBy = "pictureInfo", cascade = CascadeType.ALL)
-    private Picture picture;
+
+//    @OneToOne
+//    @JoinColumn(name = "picture_info_id", nullable = false)
+//    private ImageData imageData;
+
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
+
 }

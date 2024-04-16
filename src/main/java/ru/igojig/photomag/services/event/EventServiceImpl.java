@@ -39,11 +39,18 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional
     public Event create(Event event) {
+        Event newEvent=new Event();
+        newEvent.setId(event.getId());
+        newEvent.setName(event.getName());
+        newEvent.setStartDate(event.getStartDate());
+        newEvent.setFestival(event.getFestival());
+        newEvent.setRoom(event.getRoom());
+
 //        Festival fest=festivalService.findById(festId);
 //        Room room=roomService.findById(roomId);
 //        event.setRoom(room);
 //        event.setFestival(fest);
-        return eventRepository.save(event);
+        return eventRepository.save(newEvent);
     }
 
     @Override
@@ -75,5 +82,10 @@ public class EventServiceImpl implements EventService {
     @Override
     public Long getCount() {
         return eventRepository.count();
+    }
+
+    @Override
+    public List<Event> findAllOld() {
+        return eventRepository.findAll();
     }
 }

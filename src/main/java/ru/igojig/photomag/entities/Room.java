@@ -23,11 +23,9 @@ public class Room {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "hall_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-//    @JsonIgnore
-    private Hall hall;
+    public Hall hall;
 
 
 //    @OneToMany(mappedBy = "placement", cascade = CascadeType.ALL, orphanRemoval = true)

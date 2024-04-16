@@ -22,8 +22,11 @@ public class FestivalServiceImpl implements FestivalService {
     @Override
     @Transactional
     public Festival create(Festival festival) {
+        Festival fest=new Festival();
+//        fest.setId(festival.getId());
+        fest.setName(festival.getName());
 //        festival.setId(null);
-        return festivalRepository.save(festival);
+        return festivalRepository.save(fest);
     }
 
     @Override
