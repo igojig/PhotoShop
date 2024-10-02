@@ -1,0 +1,58 @@
+version: "3.9"
+name: pet-project
+services:
+  postgres:
+    image: postgres:12.5
+    container_name: postgres_container
+    environment:
+      POSTGRES_DB: "photo_db"
+      POSTGRES_USER: "photo_db"
+      POSTGRES_PASSWORD: "photo_db"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+#      - ../2. Init Database:/docker-entrypoint-initdb.d
+      - photo-db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U photo_db -d photo_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - postgres
+#    deploy:
+#      resources:
+#        limits:
+#          cpus: '1'
+#          memory: 4G
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4:8.11.0
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "photo@mail.ru"
+      PGADMIN_DEFAULT_PASSWORD: "photo_db"
+#      PGADMIN_CONFIG_SERVER_MODE: "photo_db"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+#    deploy:
+#      resources:
+#        limits:
+#          cpus: '0.5'
+#          memory: 1G
+    networks:
+      - postgres
+
+volumes:
+  pgadmin-data:
+  photo-db-data:
+
+networks:
+  postgres:
+    driver: bridge

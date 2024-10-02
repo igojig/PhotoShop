@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Festival table</title>
+</head>
+<body>
+
+<div class="container" th:fragment="festivalTable"
+
+
+
+         th:with="events=${T(ru.igojig.photomag.controllers.HtmxFestivalEvents)}"
+         hx:get="@{/festivals}"
+         hx:trigger="|${events.ON_ADD.name()}, ${events.ON_DELETE.name()}, ${events.ON_CANCEL.name()}, ${events.ON_UPDATE.name()}|"
+         hx-target="this"
+         hx-swap="outerHTML">
+        <table class="table table-sm caption-top" id="hxEditFestival">
+            <caption>
+                <div class="container" id="addFestival">
+                    Фестивали
+                    <button type="button" class="btn btn-primary btn-sm"
+                            hx:get="@{/festivals/addForm}"
+                            hx-trigger="click"
+                            hx-swap="outerHTML"
+                            hx-target="#addFestival"
+                    >Добавить
+                    </button>
+                </div>
+            </caption>
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Название</th>
+                <th scope="col">Действие</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="festival: ${festivals}" th:attr="id='festCell_' + ${festival.id}">
+                <td th:text="${festival.id}"></td>
+                <td th:text="${festival.name}"></td>
+                <td>
+                    <div class="row">
+                        <div class="col-auto">
+                            <button type="button" class="btn btn-secondary btn-sm"
+                                    hx:get="@{/festivals/updateForm/{id}(id=${festival.id})}"
+                                    hx-trigger="click"
+                                    hx-target="#hxEditFestival"
+                                    hx-swap="outerHTML"
+                            >Редактировать
+                            </button>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" class="btn btn-danger btn-sm"
+                                    hx:delete="@{/festivals/{id}(id=${festival.id})}"
+                                    hx-swap="none"
+                            >Удалить
+                            </button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+
+
+</div>
+</body>
+</html>

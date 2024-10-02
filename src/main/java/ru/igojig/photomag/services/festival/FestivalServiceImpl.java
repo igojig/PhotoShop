@@ -31,9 +31,9 @@ public class FestivalServiceImpl implements FestivalService {
 
     @Override
     @Transactional
-    public Festival update(Long id, Festival festival) {
+    public Festival update(Long id, String festivalName) {
         Festival newFest = festivalRepository.findById(id).orElseThrow();
-        newFest.setName(festival.getName());
+        newFest.setName(festivalName);
         return newFest;
     }
 

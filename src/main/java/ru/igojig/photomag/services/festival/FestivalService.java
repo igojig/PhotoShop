@@ -13,7 +13,7 @@ public interface FestivalService {
 
     Festival create(Festival festival);
 
-    Festival update(Long id, Festival festival);
+    Festival update(Long id, String festivalName);
 
     void deleteById(Long id);
 

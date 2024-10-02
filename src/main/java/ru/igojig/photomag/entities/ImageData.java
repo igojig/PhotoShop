@@ -32,7 +32,7 @@ public class ImageData {
 //    private Event event;
 
     @Lob
-    @Column(name = "base64_content", nullable = false, columnDefinition = "BLOB NOT NULL")
+    @Column(name = "base64_content", nullable = false)
     private byte[] base64Content;
 
     @OneToOne(optional = false, fetch = FetchType.LAZY)

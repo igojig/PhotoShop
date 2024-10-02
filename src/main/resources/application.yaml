@@ -7,6 +7,8 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
+  flyway:
+    baselineOnMigrate: true
   jpa:
     show-sql: true
     hibernate:
@@ -18,10 +20,10 @@ spring:
 
   #    spring.jpa.hibernate.ddl-auto=update
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/macjig_test
-    username: root
-    password: 12345678
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:postgresql://localhost:5432/photo_db
+    username: photo_db
+    password: photo_db
+#    driver-class-name: com.mysql.cj.jdbc.Driver
 #spring.jpa.show-sql: true
 
 
