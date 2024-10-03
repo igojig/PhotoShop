@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="addHall">
+    <div class="container pb-3">
+        <form hx:post="@{/halls}" hx-swap="none">
+            <div class="row g-1 justify-content-start">
+                <div class="col-5">
+                    <label for="hallName" class="form-label form-label-sm">Название</label>
+                    <input type="text" id="hallName" name="hallName" class="form-control form-control-sm">
+                </div>
+                <div class="col-7">
+                    <label for="hallAddress" class="form-label form-label-sm">Адрес</label>
+                    <input type="text" name="hallAddress" id="hallAddress" class="form-control form-control-sm">
+                </div>
+                <div class="row justify-content-start">
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary btn-sm"
+                        >
+                            Добавить
+                        </button>
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-secondary btn-sm"
+                                hx:get="@{/halls/cancel}" hx-swap="none">Отменить</button>
+                    </div>
+
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

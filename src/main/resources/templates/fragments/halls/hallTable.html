@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:fragment="hallTable" hx:get="@{/halls}" hx-swap="outerHTML" hx-trigger="update" hx-target="this">
+
+    <div class="container" >
+
+        <table class="table table-sm caption-top text-center">
+            <caption>
+                <div class="container" id="addFestivalPlacement">
+                Концертные залы
+                <button type="button" class="btn btn-primary btn-sm"
+                        hx:get="@{/halls/addForm}" hx-target="#addFestivalPlacement" hx-swap="outerHTML">Добавить</button>
+                </div>
+            </caption>
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Название</th>
+                <th>Адрес</th>
+                <th>Действие</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="hall:${halls}">
+                <td th:text="${hall.id}"></td>
+                <td th:text="${hall.name}"></td>
+                <td th:text="${hall.address}"></td>
+                <td>
+                    <div class="row justify-content-center">
+                        <div class="col-auto">
+                            <button type="button" class="btn btn-primary btn-sm"
+                                    hx:get="@{/halls/editForm/{id}(id=${hall.id})}" hx-swap="outerHTML" hx-target="closest table">
+                                Редактировать</button>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" class="btn btn-danger btn-sm"
+                                    hx:delete="@{/halls/{id}(id=${hall.id})}" hx-swap="none">Удалить</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+</body>
+</html>

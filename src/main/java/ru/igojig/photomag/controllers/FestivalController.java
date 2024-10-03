@@ -45,7 +45,7 @@ public class FestivalController {
 
         model.addAttribute("festivals", list);
 
-        return "fragments/festivalTable :: festivalTable";
+        return "fragments/festivals/festivalTable :: festivalTable";
     }
 
     @HxRequest
@@ -53,7 +53,7 @@ public class FestivalController {
     public String getEditForm(@PathVariable("id") Long id, Model model) {
         Festival festival = festivalService.findById(id);
         model.addAttribute("festival", festival);
-        return "fragments/editFestivalForm :: editFestival";
+        return "fragments/festivals/editFestivalForm :: editFestival";
     }
 
     @HxRequest
@@ -76,7 +76,7 @@ public class FestivalController {
     @GetMapping("/addForm")
     public String getAddForm(Model model){
         model.addAttribute("festivalDto", new FestivalDto());
-        return "fragments/addFestivalForm :: addFestival";
+        return "fragments/festivals/addFestivalForm :: addFestival";
     }
 
 
@@ -94,6 +94,7 @@ public class FestivalController {
 
     }
 
+    @HxRequest
     @GetMapping("/cancel")
     public HtmxResponse onCancel(){
         return HtmxResponse.builder().trigger(HtmxFestivalEvents.ON_CANCEL.name()).build();

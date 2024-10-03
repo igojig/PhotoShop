@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="editHall">
+    <div class="container">
+        <form th:object="${hall}" hx:put="@{/halls}" hx-swap="none">
+            <div class="row">
+                <input type="hidden" th:field="*{id}">
+                <div class="col-4">
+                    <label for="hallName" class="form-label form-label-sm">Название</label>
+                    <input type="text" id="hallName" th:field="*{name}" class="form-control form control-sm">
+                </div>
+                <div class="col-5">
+                    <label for="hallAddress" class="form-label form-label-sm">Адрес</label>
+                    <input type="text" id="hallAddress" th:field="*{address}" class="form-control form control-sm">
+                </div>
+                <div class="row">
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary btn-sm">Изменить</button>
+                        <button type="button" class="btn btn-secondary btn-sm"
+                                hx:get="@{/halls/cancel}" hx-swap="none">Отменить</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

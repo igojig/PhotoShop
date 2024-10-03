@@ -25,10 +25,10 @@ public class HallServiceImpl implements HallService{
     @Override
     @Transactional
     public Hall create(Hall hall) {
-        Hall newHall=new Hall();
-        newHall.setName(hall.getName());
-        newHall.setAddress(newHall.getAddress());
-        return hallRepository.save(newHall);
+//        Hall newHall=new Hall();
+//        newHall.setName(hall.getName());
+//        newHall.setAddress(newHall.getAddress());
+        return hallRepository.save(hall);
     }
 
     @Override

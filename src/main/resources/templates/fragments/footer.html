@@ -3,19 +3,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Фестивали</title>
+    <title>Bootstrap demo</title>
     <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.css">
 </head>
 <body>
-<header th:replace="~{fragments/navigation :: navigation}"></header>
 
-<main>
-
-    <div th:replace="~{fragments/festivals/festivalTable :: festivalTable}" ></div>
-
-</main>
-
-<div th:replace="~{fragments/footer::footer}"></div>
+<div th:fragment="footer">
+    <script src="/webjars/bootstrap/5.3.3/js/bootstrap.bundle.js"></script>
+    <script src="/webjars/htmx.org/2.0.2/dist/htmx.min.js"></script>
+</div>
 
 </body>
 </html>
