@@ -103,24 +103,4 @@ public class HallController {
         return HtmxResponse.builder().trigger("update").build();
     }
 
-//    @GetMapping("/halls/{id}")
-//    public HallDto findById(@PathVariable("id") Long id){
-//        return hallConverter.entityToDto(hallService.findById(id));
-//    }
-//
-//    @PostMapping("/halls")
-//    public HallDto create(@RequestBody HallDto hallDto){
-//        return hallConverter.entityToDto(hallService.create(hallConverter.dtoToEntity(hallDto)));
-//    }
-//
-//    @PutMapping("/halls/{id}")
-//    public HallDto update(@PathVariable("id") Long id,  @RequestBody HallDto hallDto){
-//        return hallConverter.entityToDto(hallService.update(id, hallConverter.dtoToEntity(hallDto)));
-//    }
-//
-//    @DeleteMapping("/halls/{id}")
-//    public void deleteById(@PathVariable("id") Long id){
-//        hallService.deleteById(id);
-//    }
-
 }
