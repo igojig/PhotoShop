@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>editRoomForm</title>
+</head>
+<body>
+<td th:fragment="editRoomForm" colspan="4">
+    <form th:object="${room}" hx:put="@{/rooms}"  hx-swap="none">
+        <input type="hidden" th:field="*{id}">
+        <div class="row justify-content-start">
+            <div class="col-5">
+                <input type="text" class="form-control form-control-sm" th:field="*{name}">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary btn-sm">Изменить</button>
+                <button type="button" class="btn btn-secondary btn-sm" hx:get="@{/rooms/cancel}" hx-params="none" hx-swap="none">Отменить</button>
+            </div>
+        </div>
+    </form>
+</td>
+
+</body>
+</html>

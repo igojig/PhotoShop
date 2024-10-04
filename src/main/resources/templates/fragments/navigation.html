@@ -21,7 +21,7 @@
             <a class="nav-link" th:classappend="${link=='halls' ? 'active' : ' '}" th:href="@{/halls}">Концертные залы</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Помещения</a>
+            <a class="nav-link" th:classappend="${link=='rooms' ? 'active' : ' '}" th:href="@{/rooms}">Помещения</a>
           </li>
           <li class="nav-item">
             <a class="nav-link">Мероприятия</a>

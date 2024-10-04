@@ -14,7 +14,7 @@ import java.util.Optional;
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
 
-    @Query("select r from Room r join fetch r.hall h where h.id= :id")
+    @Query("select r from Room r  where r.hall.id= :id")
     List<Room> findByHallId(@Param("id") Long id);
 
     @Query("Select r From Room r join fetch r.hall")

@@ -17,7 +17,7 @@ public class RoomServiceImpl implements RoomService {
     private final HallService hallService;
 
     @Override
-    public List<Room> findAllLightByHallId(Long id) {
+    public List<Room> findAllByHallId(Long id) {
         return roomRepository.findByHallId(id);
     }
 
@@ -37,18 +37,18 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     @Transactional
-    public Room create(Long id, Room room) {
-        Room newRoom=new Room();
-        Hall hall=hallService.findById(id);
-        newRoom.setName(room.getName());
-        newRoom.setHall(hall);
-        return roomRepository.save(newRoom);
+    public Room create(Long hallId, Room room) {
+//        Room newRoom=new Room();
+        Hall hall=hallService.findById(hallId);
+        room.setName(room.getName());
+        room.setHall(hall);
+        return roomRepository.save(room);
     }
 
     @Override
     @Transactional
-    public Room update(Long id, Room room) {
-        Room updatedRoom = roomRepository.findById(id).orElseThrow();
+    public Room update(Room room) {
+        Room updatedRoom = roomRepository.findById(room.getId()).orElseThrow();
         updatedRoom.setName(room.getName());
         return updatedRoom;
     }
