@@ -9,12 +9,13 @@
     <input type="hidden" name="hallId" th:value="${hallId}">
     <div th:if="${#lists.isEmpty(rooms)}">Список помещений пуст</div>
     <div id="placeAddForm">
-        <button th:if="${hallId}" type="button" class="btn btn-primary btn-sm" hx:get="@{/rooms/addForm}" hx-swap="outerHTML">Добавить</button>
+        <button th:if="${hallId}" type="button" class="btn btn-primary btn-sm" hx:get="@{/rooms/addForm}" hx-swap="outerHTML"
+        hx-on:click="disablePanel('table');">Добавить</button>
     </div>
     <div th:if="${not #lists.isEmpty(rooms)}">
 
 
-        <table class="table table-sm caption-top text-center">
+        <table class="table table-sm caption-top text-center" id="table" >
             <caption>
 
             </caption>
@@ -26,18 +27,32 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="room: ${rooms}">
+            <tr th:each="room: ${rooms}" th:attr="id='edit_'+${room.id}">
                 <td th:text="${room.id}"></td>
-                <td th:text="${room.name}" th:attr="id='edit_'+${room.id}"></td>
+                <td th:text="${room.name}"></td>
                 <td>
                     <button type="button" class="btn btn-primary btn-sm"
-                            hx:get="@{/rooms/editForm/{id}(id=${room.id})}" hx-target="closest tr" hx-swap="innerHTML">Редактировать</button>
+                            hx:get="@{/rooms/editForm/{id}(id=${room.id})}" hx-target="closest tr" hx-swap="innerHTML"
+                    hx-on:click="disablePanel('table');
+                                disablePanel('placeAddForm');
+                    "
+                    >Редактировать</button>
                     <button type="button" class="btn btn-danger btn-sm" hx:delete="@{/rooms/{id}(id=${room.id})}">Удалить</button>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
+    <script>
+        function disablePanel(id) {
+            var panel = document.getElementById(id);
+            var inputs = panel.querySelectorAll('input, button'); //anything else can go in here
+            for (var i=0; i<inputs.length; i++) {
+            inputs[i].disabled = true;
+       }
+     //  panel.style.opacity = 0.3; //or any other value
+    }
+    </script>
 </div>
 </body>
 </html>
