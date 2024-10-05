@@ -8,15 +8,16 @@
 
 <div th:fragment="hallTable" hx:get="@{/halls}" hx-swap="outerHTML" hx-trigger="update" hx-target="this">
 
-    <div class="container" >
+    <div class="container">
 
         <table class="table table-sm caption-top text-center" id="hallsTable">
             <caption>
                 <div class="container" id="addFestivalPlacement">
-                Концертные залы
-                <button type="button" class="btn btn-primary btn-sm"
-                        hx:get="@{/halls/addForm}" hx-target="#addFestivalPlacement"
-                        hx-swap="outerHTML" hx-on:click="disablePanel('hallsTable')">Добавить</button>
+                    Концертные залы
+                    <button type="button" class="btn btn-primary btn-sm"
+                            hx:get="@{/halls/addForm}" hx-target="#addFestivalPlacement"
+                            hx-swap="outerHTML" hx-on:click="disablePanel('hallsTable')">Добавить
+                    </button>
                 </div>
             </caption>
             <thead>
@@ -38,11 +39,11 @@
                             <button type="button" class="btn btn-primary btn-sm"
                                     hx:get="@{/halls/editForm/{id}(id=${hall.id})}" hx-swap="outerHTML"
                                     hx-target="closest tr" hx-on:click="disablePanel('hallsTable')">
-                                Редактировать</button>
-                        </div>
-                        <div class="col-auto">
+                                Редактировать
+                            </button>
                             <button type="button" class="btn btn-danger btn-sm"
-                                    hx:delete="@{/halls/{id}(id=${hall.id})}" hx-swap="none">Удалить</button>
+                                    hx:delete="@{/halls/{id}(id=${hall.id})}" hx-swap="none">Удалить
+                            </button>
                         </div>
                     </div>
                 </td>
