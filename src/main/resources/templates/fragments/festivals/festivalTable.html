@@ -19,11 +19,12 @@
             <caption>
                 <div class="container" id="addFestival">
                     Фестивали
-                    <button type="button" class="btn btn-primary btn-sm"
+                    <button type="button" class="btn btn-primary btn-sm" id="btnAdd"
                             hx:get="@{/festivals/addForm}"
                             hx-trigger="click"
                             hx-swap="outerHTML"
                             hx-target="#addFestival"
+                            hx-on:click="disablePanel('hxEditFestival')"
                     >Добавить
                     </button>
                 </div>
@@ -46,8 +47,9 @@
                             <button type="button" class="btn btn-secondary btn-sm"
                                     hx:get="@{/festivals/updateForm/{id}(id=${festival.id})}"
                                     hx-trigger="click"
-                                    hx-target="#hxEditFestival"
+                                    hx-target="closest tr"
                                     hx-swap="outerHTML"
+                                    hx-on:click="disablePanel('hxEditFestival')"
                             >Редактировать
                             </button>
                         </div>

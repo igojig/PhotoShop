@@ -10,12 +10,13 @@
 
     <div class="container" >
 
-        <table class="table table-sm caption-top text-center">
+        <table class="table table-sm caption-top text-center" id="hallsTable">
             <caption>
                 <div class="container" id="addFestivalPlacement">
                 Концертные залы
                 <button type="button" class="btn btn-primary btn-sm"
-                        hx:get="@{/halls/addForm}" hx-target="#addFestivalPlacement" hx-swap="outerHTML">Добавить</button>
+                        hx:get="@{/halls/addForm}" hx-target="#addFestivalPlacement"
+                        hx-swap="outerHTML" hx-on:click="disablePanel('hallsTable')">Добавить</button>
                 </div>
             </caption>
             <thead>
@@ -35,7 +36,8 @@
                     <div class="row justify-content-center">
                         <div class="col-auto">
                             <button type="button" class="btn btn-primary btn-sm"
-                                    hx:get="@{/halls/editForm/{id}(id=${hall.id})}" hx-swap="outerHTML" hx-target="closest table">
+                                    hx:get="@{/halls/editForm/{id}(id=${hall.id})}" hx-swap="outerHTML"
+                                    hx-target="closest tr" hx-on:click="disablePanel('hallsTable')">
                                 Редактировать</button>
                         </div>
                         <div class="col-auto">
