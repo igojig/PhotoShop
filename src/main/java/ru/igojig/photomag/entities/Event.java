@@ -1,12 +1,12 @@
 package ru.igojig.photomag.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -28,16 +28,15 @@ public class Event {
     @JoinColumn(name = "festival_id")
     private Festival festival;
 
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "room_id")
-//    @JsonIgnore
     private Room room;
 
     @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "start_date", nullable = false)
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private LocalDate startDate;
 
     @CreationTimestamp

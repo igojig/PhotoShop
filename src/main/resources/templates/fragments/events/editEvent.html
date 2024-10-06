@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>edit event</title>
+</head>
+<body>
+<div class="container" th:fragment="editEvent" hx:get="@{/events}" hx-trigger="update from:body" hx-swap="outerHTML" id="editEvent">
+    <form th:object="${event}">
+
+
+        <div class="row">
+            <div class="col-4">
+                <label for="eventName" class="form-label from-label-sm">Название</label>
+                <input type="text" class="form-control form-control-sm" id="eventName" th:field="*{name}">
+            </div>
+            <div class="col-auto">
+                <label for="eventDate" class="form-label from-label-sm">Дата</label>
+                <input type="date" class="form-control form-control-sm" id="eventDate" th:field="*{startDate}">
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-4">
+<!--                <div th:replace="~{fragments/events/data/festivalData::festivalData}"></div>-->
+                <div hx:get="@{/events/getFestivals(selectedFestivalId=${event.festival.id})}" hx-trigger="load" hx-swap="outerHTML"></div>
+            </div>
+            <div class="col-4">
+<!--                <div th:replace="~{fragments/events/data/hallData::hallData}"></div>-->
+                <div hx:get="@{/events/getHalls(selectedHallId=${event.room.hall.id})}" hx-trigger="load" hx-swap="outerHTML"></div>
+            </div>
+            <div class="col-4">
+<!--                <div th:replace="~{fragments/events/data/roomData::roomData}"></div>-->
+                <div hx:get="@{/events/getRoomsByHallId(selectedRoomId=${event.room.id}, hallId=${event.room.hall.id})}"
+                     hx-trigger="load" hx-swap="outerHTML">></div>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-auto">
+                <button type="button" class="btn btn-primary btn-sm">Соханить</button>
+                <button type="button" class="btn btn-secondary btn-sm" hx-on:click="htmx.trigger('#editEvent','update')" >Отмена</button>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

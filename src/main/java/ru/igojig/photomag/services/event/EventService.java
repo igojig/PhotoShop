@@ -1,6 +1,5 @@
 package ru.igojig.photomag.services.event;
 
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import ru.igojig.photomag.entities.Event;
 
@@ -8,7 +7,7 @@ import java.util.List;
 
 @Service
 public interface EventService {
-    Page<Event> findAll(Integer currentPage, Integer recordsPerPage);
+    List<Event> findAll();
 
     Event findById(Long id);
 

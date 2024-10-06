@@ -2,15 +2,10 @@ package ru.igojig.photomag.services.event;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.igojig.photomag.entities.Event;
-import ru.igojig.photomag.entities.Festival;
-import ru.igojig.photomag.entities.Room;
 import ru.igojig.photomag.repositories.EventRepository;
-import ru.igojig.photomag.repositories.RoomRepository;
 import ru.igojig.photomag.services.Room.RoomService;
 import ru.igojig.photomag.services.festival.FestivalService;
 
@@ -27,8 +22,8 @@ public class EventServiceImpl implements EventService {
     private final FestivalService festivalService;
 
     @Override
-    public Page<Event> findAll(Integer currentPage, Integer recordsPerPage) {
-        return eventRepository.findAll(PageRequest.of(currentPage, recordsPerPage));
+    public List<Event> findAll() {
+        return eventRepository.findAll();
     }
 
     @Override
