@@ -26,13 +26,13 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="event: ${events}">
+        <tr th:each="event: ${eventTableModels}">
             <td th:text="${event.id}"></td>
             <td th:text="${event.name}"></td>
             <td th:text="${event.startDate}"></td>
-            <td th:text="${event.festival.name}"></td>
-            <td th:text="${event.room.hall.name}"></td>
-            <td th:text="${event.room.name}"></td>
+            <td th:text="${event.festivalName}"></td>
+            <td th:text="${event.hallName}"></td>
+            <td th:text="${event.roomName}"></td>
             <td>
                 <div class="row">
                     <div class="col-auto">

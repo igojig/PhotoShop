@@ -1,20 +1,17 @@
 package ru.igojig.photomag.controllers;
 
+import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxResponse;
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import ru.igojig.photomag.converters.EventConverter;
+import org.springframework.web.bind.annotation.*;
 import ru.igojig.photomag.entities.Event;
-import ru.igojig.photomag.services.Hall.HallService;
-import ru.igojig.photomag.services.Room.RoomService;
+import ru.igojig.photomag.mappers.EventMapper;
+import ru.igojig.photomag.model.EventEditModel;
+import ru.igojig.photomag.model.EventTableModel;
 import ru.igojig.photomag.services.event.EventService;
-import ru.igojig.photomag.services.festival.FestivalService;
 
 import java.util.List;
 
@@ -26,38 +23,31 @@ import java.util.List;
 public class EventController {
 
     private final EventService eventService;
-    private final FestivalService festivalService;
-    private final HallService hallService;
-    private final RoomService roomService;
-    private final EventConverter eventConverter;
+    private final EventMapper eventMapper;
 
     @GetMapping()
-    public String findAll(Model model) {
-        List<Event> events = eventService.findAll();
-        model.addAttribute("events", events);
+    public String eventTable(Model model) {
+        List<EventTableModel> eventTableModels = eventService.findAll()
+                        .stream().map(eventMapper::toTableModel).toList();
+        model.addAttribute("eventTableModels", eventTableModels);
         return "/events";
     }
 
     @HxRequest
     @GetMapping
-    public String eventTable(Model model) {
-        List<Event> events = eventService.findAll();
-        model.addAttribute("events", events);
+    public String eventTableHx(Model model) {
+        List<EventTableModel> eventTableModels = eventService.findAll()
+                .stream().map(eventMapper::toTableModel).toList();
+        model.addAttribute("eventTableModels", eventTableModels);
         return "/fragments/events/eventTable:: eventTable";
     }
 
     @HxRequest
     @GetMapping("/{id}")
     public String editForm(@PathVariable("id") Long id, Model model) {
-        Event event = eventService.findById(id);
-//        List<Festival> festivals = festivalService.findAll();
-//        List<Hall> halls=hallService.findAll();
-//        List<Room> rooms=roomService.findAllByHallId(event.getRoom().getHall().getId());
-
-        model.addAttribute("event", event);
-//        model.addAttribute("festivals", festivals);
-//        model.addAttribute("halls", halls);
-//        model.addAttribute("rooms", rooms);
+//        Event event = eventService.findById(id);
+       EventEditModel eventEditModel = eventMapper.toEditModel( eventService.findById(id));
+        model.addAttribute("eventEditModel", eventEditModel);
 
         return "/fragments/events/editEvent::editEvent";
     }
@@ -90,6 +80,17 @@ public class EventController {
         model.addAttribute("selectedHallId", selectedHallId);
 
         return "/fragments/events/hallView::hallView";
+    }
+
+    @HxRequest
+    @PutMapping
+    public HtmxResponse updateEvent(@ModelAttribute EventEditModel eventEditModel){
+
+        Event event=eventMapper.toEvent(eventEditModel);
+        eventService.update(event);
+
+        return HtmxResponse.builder().trigger("update").build();
+
     }
 
 //    @GetMapping("/events/old")

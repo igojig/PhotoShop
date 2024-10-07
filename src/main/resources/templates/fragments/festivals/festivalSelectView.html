@@ -6,8 +6,8 @@
 </head>
 <body>
 <div th:fragment="festivalSelectView">
-  <label for="festival" class="form-label from-label-sm">Фестиваль</label>
-  <select class="form-select form-select-sm" size="10" id="festival" name="festival">
+  <label for="festivalId" class="form-label from-label-sm">Фестиваль</label>
+  <select class="form-select form-select-sm" size="10" id="festivalId" name="festivalId">
     <option th:each="festival: ${festivals}"
             th:text="${festival.name}" th:value="${festival.id}"
             th:selected="${festival.id} == ${selectedFestivalId}"></option>

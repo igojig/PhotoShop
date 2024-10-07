@@ -24,6 +24,9 @@ public class Event {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "name", nullable = false)
+    private String name;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "festival_id")
     private Festival festival;
@@ -31,9 +34,6 @@ public class Event {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "room_id")
     private Room room;
-
-    @Column(name = "name", nullable = false)
-    private String name;
 
     @Column(name = "start_date", nullable = false)
     @DateTimeFormat(pattern="yyyy-MM-dd")

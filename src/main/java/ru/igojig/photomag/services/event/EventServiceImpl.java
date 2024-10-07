@@ -50,9 +50,9 @@ public class EventServiceImpl implements EventService {
 
     @Override
     @Transactional
-    public Event update(Long id,  Event event) {
+    public Event update(Event event) {
         log.info("Before update");
-        Event updEvent=eventRepository.findById(id).orElseThrow();
+        Event updEvent=eventRepository.findById(event.getId()).orElseThrow();
 //        Festival festival=festivalService.findById(event.getFestival().getId());
 //        Room room=roomService.findById(event.getRoom().getId());
 //        updEvent.setName(event.getName());

@@ -6,7 +6,8 @@
 </head>
 <body>
 <div class="container" th:fragment="editEvent" hx:get="@{/events}" hx-trigger="update from:body" hx-swap="outerHTML" id="editEvent">
-    <form th:object="${event}">
+    <form th:object="${eventEditModel}" hx:put="@{/events}" hx-swap="none">
+        <input type="hidden" th:field="*{id}">
         <div class="row">
             <div class="col-4">
                 <label for="eventName" class="form-label from-label-sm">Название</label>
@@ -20,21 +21,21 @@
         <div class="row mt-1">
             <div class="col-4">
 <!--                <div th:replace="~{fragments/events/data/festivalData::festivalData}"></div>-->
-                <div hx:get="@{/events/festivalView(selectedFestivalId=${event.festival.id})}" hx-trigger="load" hx-swap="outerHTML"></div>
+                <div hx:get="@{/events/festivalView(selectedFestivalId=${eventEditModel.festivalId})}" hx-trigger="load" hx-swap="outerHTML"></div>
             </div>
             <div class="col-4">
 <!--                <div th:replace="~{fragments/events/data/hallData::hallData}"></div>-->
-                <div hx:get="@{/events/hallView(selectedHallId=${event.room.hall.id})}" hx-trigger="load" hx-swap="outerHTML"></div>
+                <div hx:get="@{/events/hallView(selectedHallId=${eventEditModel.hallId})}" hx-trigger="load" hx-swap="outerHTML"></div>
             </div>
             <div class="col-4">
 <!--                <div th:replace="~{fragments/events/data/roomData::roomData}"></div>-->
-                <div hx:get="@{/events/roomViewByHallId(selectedRoomId=${event.room.id}, hallId=${event.room.hall.id})}"
+                <div hx:get="@{/events/roomViewByHallId(selectedRoomId=${eventEditModel.roomId}, hallId=${eventEditModel.hallId})}"
                      hx-trigger="load" hx-swap="outerHTML">></div>
             </div>
         </div>
         <div class="row mt-1">
             <div class="col-auto">
-                <button type="button" class="btn btn-primary btn-sm">Соханить</button>
+                <button type="submit" class="btn btn-primary btn-sm">Соханить</button>
                 <button type="button" class="btn btn-secondary btn-sm" hx-on:click="htmx.trigger('#editEvent','update')" >Отмена</button>
             </div>
 

@@ -13,7 +13,7 @@ public interface EventService {
 
     Event create(Event event);
 
-    Event update(Long id, Event event);
+    Event update(Event event);
 
     void deleteById(Long id);
 
