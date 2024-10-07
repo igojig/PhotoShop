@@ -99,5 +99,11 @@ public class EventController {
 
     }
 
+    @HxRequest
+    @DeleteMapping("/{id}")
+    public HtmxResponse delete(@PathVariable("id") Long id){
+        eventService.deleteById(id);
+        return HtmxResponse.builder().trigger("update").build();
+    }
 
 }
