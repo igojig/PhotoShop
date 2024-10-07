@@ -13,6 +13,7 @@ import ru.igojig.photomag.model.EventEditModel;
 import ru.igojig.photomag.model.EventTableModel;
 import ru.igojig.photomag.services.event.EventService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -28,7 +29,7 @@ public class EventController {
     @GetMapping()
     public String eventTable(Model model) {
         List<EventTableModel> eventTableModels = eventService.findAll()
-                        .stream().map(eventMapper::toTableModel).toList();
+                .stream().map(eventMapper::toTableModel).toList();
         model.addAttribute("eventTableModels", eventTableModels);
         return "/events";
     }
@@ -43,10 +44,17 @@ public class EventController {
     }
 
     @HxRequest
+    @GetMapping("/add")
+    public String addForm(Model model) {
+        EventEditModel eventEditModel = EventEditModel.builder().startDate(LocalDate.now()).build();
+        model.addAttribute("eventEditModel", eventEditModel);
+        return "/fragments/events/editEvent::editEvent";
+    }
+
+    @HxRequest
     @GetMapping("/{id}")
     public String editForm(@PathVariable("id") Long id, Model model) {
-//        Event event = eventService.findById(id);
-       EventEditModel eventEditModel = eventMapper.toEditModel( eventService.findById(id));
+        EventEditModel eventEditModel = eventMapper.toEditModel(eventService.findById(id));
         model.addAttribute("eventEditModel", eventEditModel);
 
         return "/fragments/events/editEvent::editEvent";
@@ -54,19 +62,15 @@ public class EventController {
 
     @HxRequest
     @GetMapping("/roomViewByHallId")
-    public String getRooms(@RequestParam("hallId") Long hallId, @RequestParam(name = "selectedRoomId", required = false) Long selectedRoomId, Model model){
-//        List<Room> rooms = roomService.findAllByHallId(hallId);
-//        model.addAttribute("rooms", rooms);
-        model.addAttribute("selectedRoomId",selectedRoomId);
+    public String getRooms(@RequestParam(name = "hallId", required = false) Long hallId, @RequestParam(name = "selectedRoomId", required = false) Long selectedRoomId, Model model) {
+        model.addAttribute("selectedRoomId", selectedRoomId);
         model.addAttribute("hallId", hallId);
         return "/fragments/events/roomView:: roomView";
     }
 
     @HxRequest
     @GetMapping("/festivalView")
-    public String getFestivals(@RequestParam(name = "selectedFestivalId", required = false) Long selectedFestivalId, Model model){
-//        List<Festival> festivals = festivalService.findAll();
-//        model.addAttribute("festivals", festivals);
+    public String getFestivals(@RequestParam(name = "selectedFestivalId", required = false) Long selectedFestivalId, Model model) {
         model.addAttribute("selectedFestivalId", selectedFestivalId);
 
         return "/fragments/events/festivalView::festivalView";
@@ -74,9 +78,7 @@ public class EventController {
 
     @HxRequest
     @GetMapping("/hallView")
-    public String getHalls(@RequestParam(name = "selectedHallId", required = false) Long selectedHallId, Model model){
-//        List<Hall> halls = hallService.findAll();
-//        model.addAttribute("halls", halls);
+    public String getHalls(@RequestParam(name = "selectedHallId", required = false) Long selectedHallId, Model model) {
         model.addAttribute("selectedHallId", selectedHallId);
 
         return "/fragments/events/hallView::hallView";
@@ -84,54 +86,18 @@ public class EventController {
 
     @HxRequest
     @PutMapping
-    public HtmxResponse updateEvent(@ModelAttribute EventEditModel eventEditModel){
+    public HtmxResponse updateEvent(@ModelAttribute EventEditModel eventEditModel) {
 
-        Event event=eventMapper.toEvent(eventEditModel);
-        eventService.update(event);
+        Event event = eventMapper.toEvent(eventEditModel);
+        if (event.getId() == null) {
+            eventService.create(event);
+        } else {
+            eventService.update(event);
+        }
 
         return HtmxResponse.builder().trigger("update").build();
 
     }
 
-//    @GetMapping("/events/old")
-//    public List<EventDto> findAll() {
-//        return eventService.findAllOld().stream()
-//                .map(eventConverter::entityToDto)
-//                .toList();
-//
-//    }
-//
-//    @GetMapping("/events/{id}")
-//    public EventDto findById(@PathVariable("id") Long id) {
-////        System.out.println(id);
-//        return eventConverter.entityToDto(eventService.findById(id));
-//    }
-//
-//
-//    //    @PostMapping("/events/festivals/{festId}/rooms/{roomId}")
-//    @PostMapping("/events")
-//    public EventDto create(@RequestBody EventDto eventDto) {
-//        return eventConverter.entityToDto(eventService.create(eventConverter.dtoToEntity(eventDto)));
-//    }
-//
-//    @PutMapping("/events/{id}")
-//    public EventDto update(@PathVariable("id") Long id, @RequestBody EventDto eventDto) {
-//        log.info("Controller start:" + eventDto);
-//        Event event = eventConverter.dtoToEntity(eventDto);
-//        event = eventService.update(id, event);
-//        log.info("Controller end:" + event);
-//        return eventConverter.entityToDto(event);
-//    }
-//
-//    @DeleteMapping("/events/{id}")
-//    public void deleteById(@PathVariable("id") Long id) {
-//        eventService.deleteById(id);
-//    }
-//
-//    @GetMapping("/events/count")
-//    public Long getCount() {
-//        return eventService.getCount();
-//    }
-//
 
 }

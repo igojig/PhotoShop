@@ -13,6 +13,7 @@ import ru.igojig.photomag.entities.Room;
 import ru.igojig.photomag.services.Hall.HallService;
 import ru.igojig.photomag.services.Room.RoomService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -96,8 +97,9 @@ public class RoomController {
     @HxRequest
     @GetMapping("/selectViewByHallId")
     public String selectViewByHallId(@RequestParam(name = "selectedRoomId", required = false) Long id,
-                                     @RequestParam("hallId") Long hallId, Model model){
-        List<Room> rooms = roomService.findAllByHallId(hallId);
+                                     @RequestParam(name = "hallId", required = false) Long hallId, Model model){
+
+        List<Room> rooms = hallId==null ? new ArrayList<>(): roomService.findAllByHallId(hallId);
         model.addAttribute("rooms", rooms);
         model.addAttribute("selectedRoomId", id);
         return "/fragments/rooms/roomSelectView::roomSelectView";

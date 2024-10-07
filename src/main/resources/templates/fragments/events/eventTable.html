@@ -10,7 +10,8 @@
         <caption>
             <div class="row">
                 <div class="col-auto">
-                    <button class="btn btn-primary btn-sm">Добавить</button>
+                    <button class="btn btn-primary btn-sm"
+                            hx:get="@{/events/add}" hx-target="#eventFormReplace" hx-swap="outerHTML">Добавить</button>
                 </div>
             </div>
         </caption>
