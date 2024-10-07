@@ -5,12 +5,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.igojig.photomag.converters.EventConverter;
 import ru.igojig.photomag.entities.Event;
-import ru.igojig.photomag.entities.Festival;
-import ru.igojig.photomag.entities.Hall;
-import ru.igojig.photomag.entities.Room;
 import ru.igojig.photomag.services.Hall.HallService;
 import ru.igojig.photomag.services.Room.RoomService;
 import ru.igojig.photomag.services.event.EventService;
@@ -21,7 +21,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/events")
 @RequiredArgsConstructor
-@CrossOrigin(value = "http://localhost:4200")
+//@CrossOrigin(value = "http://localhost:4200")
 @Slf4j
 public class EventController {
 
@@ -47,48 +47,49 @@ public class EventController {
     }
 
     @HxRequest
-    @GetMapping("/editForm/{id}")
+    @GetMapping("/{id}")
     public String editForm(@PathVariable("id") Long id, Model model) {
         Event event = eventService.findById(id);
-        List<Festival> festivals = festivalService.findAll();
-        List<Hall> halls=hallService.findAll();
-        List<Room> rooms=roomService.findAllByHallId(event.getRoom().getHall().getId());
+//        List<Festival> festivals = festivalService.findAll();
+//        List<Hall> halls=hallService.findAll();
+//        List<Room> rooms=roomService.findAllByHallId(event.getRoom().getHall().getId());
 
         model.addAttribute("event", event);
-        model.addAttribute("festivals", festivals);
-        model.addAttribute("halls", halls);
-        model.addAttribute("rooms", rooms);
+//        model.addAttribute("festivals", festivals);
+//        model.addAttribute("halls", halls);
+//        model.addAttribute("rooms", rooms);
 
         return "/fragments/events/editEvent::editEvent";
     }
 
     @HxRequest
-    @GetMapping("/getRoomsByHallId")
+    @GetMapping("/roomViewByHallId")
     public String getRooms(@RequestParam("hallId") Long hallId, @RequestParam(name = "selectedRoomId", required = false) Long selectedRoomId, Model model){
-        List<Room> rooms = roomService.findAllByHallId(hallId);
-        model.addAttribute("rooms", rooms);
+//        List<Room> rooms = roomService.findAllByHallId(hallId);
+//        model.addAttribute("rooms", rooms);
         model.addAttribute("selectedRoomId",selectedRoomId);
-        return "/fragments/roomSelectView:: roomSelectView";
+        model.addAttribute("hallId", hallId);
+        return "/fragments/events/roomView:: roomView";
     }
 
     @HxRequest
-    @GetMapping("/getFestivals")
+    @GetMapping("/festivalView")
     public String getFestivals(@RequestParam(name = "selectedFestivalId", required = false) Long selectedFestivalId, Model model){
-        List<Festival> festivals = festivalService.findAll();
-        model.addAttribute("festivals", festivals);
+//        List<Festival> festivals = festivalService.findAll();
+//        model.addAttribute("festivals", festivals);
         model.addAttribute("selectedFestivalId", selectedFestivalId);
 
-        return "/fragments/festivalSelectView::festivalSelectView";
+        return "/fragments/events/festivalView::festivalView";
     }
 
     @HxRequest
-    @GetMapping("/getHalls")
+    @GetMapping("/hallView")
     public String getHalls(@RequestParam(name = "selectedHallId", required = false) Long selectedHallId, Model model){
-        List<Hall> halls = hallService.findAll();
-        model.addAttribute("halls", halls);
+//        List<Hall> halls = hallService.findAll();
+//        model.addAttribute("halls", halls);
         model.addAttribute("selectedHallId", selectedHallId);
 
-        return "/fragments/hallSelectView::hallSelectView";
+        return "/fragments/events/hallView::hallView";
     }
 
 //    @GetMapping("/events/old")

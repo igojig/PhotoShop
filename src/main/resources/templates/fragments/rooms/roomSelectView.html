@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>roomSelectView</title>
+</head>
+<body>
+<div th:fragment="roomSelectView">
+    <label for="room" class="form-label from-label-sm">Помещение</label>
+    <select class="form-select form-select-sm" size="10" id="room" name="room">
+        <option th:each="room: ${rooms}"
+                th:text="${room.name}" th:value="${room.id}"
+                th:selected="${room.id} == ${selectedRoomId}"></option>
+
+    </select>
+</div>
+</body>
+</html>

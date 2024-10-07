@@ -103,4 +103,13 @@ public class HallController {
         return HtmxResponse.builder().trigger("update").build();
     }
 
+    @HxRequest
+    @GetMapping("/selectView")
+    public String selectView(@RequestParam(name = "selectedHallId", required = false) Long id, Model model){
+        List<Hall> halls = hallService.findAll();
+        model.addAttribute("halls", halls);
+        model.addAttribute("selectedHallId", id);
+        return "/fragments/halls/hallSelectView:: hallSelectView";
+    }
+
 }

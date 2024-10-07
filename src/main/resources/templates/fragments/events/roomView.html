@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>roomData</title>
+</head>
+<body>
+<div th:fragment="roomView" hx-trigger="change[event.target.id=='hall'] from:body"
+     hx:get="@{/events/roomViewByHallId}" hx-include="#hall" hx-swap="outerHTML" >
+
+  <div hx:get="@{/rooms/selectViewByHallId(selectedRoomId=${selectedRoomId}, hallId=${hallId})}"
+       hx-trigger="load"  hx-swap="outerHTML"></div>
+
+</div>
+</body>
+</html>

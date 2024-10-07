@@ -93,6 +93,16 @@ public class RoomController {
         return HtmxResponse.builder().trigger("updateRooms").build();
     }
 
+    @HxRequest
+    @GetMapping("/selectViewByHallId")
+    public String selectViewByHallId(@RequestParam(name = "selectedRoomId", required = false) Long id,
+                                     @RequestParam("hallId") Long hallId, Model model){
+        List<Room> rooms = roomService.findAllByHallId(hallId);
+        model.addAttribute("rooms", rooms);
+        model.addAttribute("selectedRoomId", id);
+        return "/fragments/rooms/roomSelectView::roomSelectView";
+    }
+
 //    @GetMapping("/halls")
 //    public String getHallData(Model model) {
 //

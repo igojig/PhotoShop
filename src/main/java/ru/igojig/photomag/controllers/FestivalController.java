@@ -99,4 +99,13 @@ public class FestivalController {
     public HtmxResponse onCancel(){
         return HtmxResponse.builder().trigger(HtmxFestivalEvents.ON_CANCEL.name()).build();
     }
+
+    @HxRequest
+    @GetMapping("/selectView")
+    public String selectView(@RequestParam(name = "selectedFestivalId", required = false) Long id, Model model ){
+        List<Festival> festivals=festivalService.findAll();
+        model.addAttribute("festivals", festivals);
+        model.addAttribute("selectedFestivalId", id);
+        return "/fragments/festivals/festivalSelectView::festivalSelectView";
+    }
 }

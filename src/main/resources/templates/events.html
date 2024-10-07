@@ -11,7 +11,8 @@
 
 <main>
 
-    <div th:replace="~{fragments/events/eventTable :: eventTable}" ></div>
+<!--    <div th:replace="~{fragments/events/eventTable :: eventTable}" ></div>-->
+    <div hx:get="@{/events}" hx-trigger="load" hx-swap="outerHTML"></div>
 
 </main>
 

@@ -5,7 +5,7 @@
     <title>Event table</title>
 </head>
 <body>
-<div th:fragment="eventTable" class="container" id="eventFormsReplace" >
+<div th:fragment="eventTable" class="container" id="eventFormReplace" >
     <table class="table table-sm caption-top">
         <caption>
             <div class="row">
@@ -37,8 +37,8 @@
                 <div class="row">
                     <div class="col-auto">
                         <button type="button" class="btn btn-primary btn-sm"
-                                hx:get="@{/events/editForm/{id}(id=${event.id})}" hx-swap="outerHTML"
-                                hx-target="#eventFormsReplace">Редактировать</button>
+                                hx:get="@{/events/{id}(id=${event.id})}" hx-swap="outerHTML"
+                                hx-target="#eventFormReplace">Редактировать</button>
                         <button type="button" class="btn btn-danger btn-sm">Удалить</button>
                     </div>
                 </div>
