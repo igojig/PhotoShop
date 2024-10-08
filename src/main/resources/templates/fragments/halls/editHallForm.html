@@ -7,9 +7,9 @@
 <body>
 <td th:fragment="editHall" colspan="4">
 
-    <form th:object="${hall}" hx:put="@{/halls}" hx-swap="none">
+    <form th:object="${hallModel}" hx:put="@{/halls}" hx-swap="none">
+        <input type="hidden" th:field="*{id}">
         <div class="row align-items-end">
-            <input type="hidden" th:field="*{id}">
             <div class="col-4">
                 <label for="hallName" class="form-label form-label-sm">Название</label>
                 <input type="text" id="hallName" th:field="*{name}" class="form-control form control-sm">
@@ -22,7 +22,7 @@
             <div class="col-auto">
                 <button type="submit" class="btn btn-primary btn-sm">Изменить</button>
                 <button type="button" class="btn btn-secondary btn-sm"
-                        hx:get="@{/halls/cancel}" hx-swap="none">Отменить
+                        hx-on:click="htmx.trigger('#hallTable','update')">Отменить
                 </button>
             </div>
 

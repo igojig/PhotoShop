@@ -10,12 +10,8 @@
 <header th:replace="~{fragments/navigation :: navigation(link='halls')}"></header>
 
 <main>
-
-
-    <div th:replace="~{fragments/halls/hallTable :: hallTable}" ></div>
-
+    <div hx:get="@{/halls}" hx-trigger="load" hx-swap="outerHTML"></div>
 </main>
-
 
     <div th:replace="~{fragments/footer::footer}"></div>
 </body>

@@ -11,7 +11,7 @@ public interface HallService {
 
     Hall create(Hall hall);
 
-    Hall update(Long id, Hall hall);
+    Hall update(Hall hall);
 
     void deleteById(Long id);
 }

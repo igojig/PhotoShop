@@ -33,8 +33,8 @@ public class HallServiceImpl implements HallService{
 
     @Override
     @Transactional
-    public Hall update(Long id, Hall hall) {
-        Hall updatedHall = hallRepository.findById(id).orElseThrow();
+    public Hall update( Hall hall) {
+        Hall updatedHall = hallRepository.findById(hall.getId()).orElseThrow();
         updatedHall.setName(hall.getName());
         updatedHall.setAddress(hall.getAddress());
         return updatedHall;

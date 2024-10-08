@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<div th:fragment="hallTable" hx:get="@{/halls}" hx-swap="outerHTML" hx-trigger="update" hx-target="this">
+<div th:fragment="hallTable" hx:get="@{/halls}" hx-swap="outerHTML" hx-trigger="update" hx-target="this" id="hallTable">
 
     <div class="container">
 
@@ -29,7 +29,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="hall:${halls}">
+            <tr th:each="hall:${hallModels}">
                 <td th:text="${hall.id}"></td>
                 <td th:text="${hall.name}"></td>
                 <td th:text="${hall.address}"></td>

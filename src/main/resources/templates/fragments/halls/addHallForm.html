@@ -7,15 +7,16 @@
 <body>
 <div th:fragment="addHall">
     <div class="container pb-3">
-        <form hx:post="@{/halls}" hx-swap="none">
+        <form hx:post="@{/halls}" hx-swap="none" th:object="${hallModel}">
+            <input type="hidden" th:field="*{id}">
             <div class="row  justify-content-start align-items-end">
                 <div class="col-4">
                     <label for="hallName" class="form-label form-label-sm">Название</label>
-                    <input type="text" id="hallName" name="hallName" class="form-control form-control-sm">
+                    <input type="text" id="hallName" th:field="*{name}" class="form-control form-control-sm">
                 </div>
                 <div class="col-5">
                     <label for="hallAddress" class="form-label form-label-sm">Адрес</label>
-                    <input type="text" name="hallAddress" id="hallAddress" class="form-control form-control-sm">
+                    <input type="text" th:field="*{address}" id="hallAddress" class="form-control form-control-sm">
                 </div>
 
                 <div class="col-auto">
@@ -23,7 +24,7 @@
                         Добавить
                     </button>
                     <button type="button" class="btn btn-secondary btn-sm"
-                            hx:get="@{/halls/cancel}" hx-swap="none">Отменить
+                            hx-on:click="htmx.trigger('#hallTable','update')">Отменить
                     </button>
                 </div>
             </div>

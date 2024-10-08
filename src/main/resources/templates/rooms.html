@@ -10,11 +10,7 @@
 <header th:replace="~{fragments/navigation :: navigation(link='rooms')}"></header>
 
 <main>
-    <div hx:get="@{/rooms}" hx-trigger="load" hx-swap="outerHTML">
-
-    </div>
-
-
+    <div hx:get="@{/rooms}" hx-trigger="load" hx-swap="outerHTML"></div>
 </main>
 
 

@@ -7,9 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.igojig.photomag.converters.HallConverter;
-import ru.igojig.photomag.dtos.HallDto;
 import ru.igojig.photomag.entities.Hall;
+import ru.igojig.photomag.mappers.HallMapper;
+import ru.igojig.photomag.model.HallModel;
 import ru.igojig.photomag.services.Hall.HallService;
 
 import java.util.List;
@@ -18,65 +18,47 @@ import java.util.List;
 @Controller
 @RequestMapping("/halls")
 @RequiredArgsConstructor
-@CrossOrigin(value = "http://localhost:4200")
+//@CrossOrigin(value = "http://localhost:4200")
 public class HallController {
     private final HallService hallService;
-    private final HallConverter hallConverter;
+    private final HallMapper hallMapper;
 
     @GetMapping()
     public String hallView(Model model) {
-        List<HallDto> list = hallService.findAll().stream()
-                .map(hallConverter::entityToDto)
-                .toList();
-        model.addAttribute("halls", list);
         return "/halls";
     }
 
     @HxRequest
     @GetMapping
     public String hallTable(Model model) {
-        List<HallDto> list = hallService.findAll().stream()
-                .map(hallConverter::entityToDto)
-                .toList();
-        model.addAttribute("halls", list);
+
+        List<HallModel> hallModels=hallService.findAll().stream().map(hallMapper::toModel).toList();
+        model.addAttribute("hallModels", hallModels);
         return "/fragments/halls/hallTable :: hallTable";
     }
 
     @HxRequest
     @GetMapping("/addForm")
-    public String getAddForm() {
+    public String getAddForm(Model model) {
+        HallModel hallModel= HallModel.builder().build();
+        model.addAttribute("hallModel", hallModel);
         return "/fragments/halls/addHallForm::addHall";
     }
 
     @HxRequest
     @PostMapping
-    public HtmxResponse addHall(@RequestParam("hallName") String hallName,
-                                @RequestParam("hallAddress") String hallAddress) {
-
-        log.info("Hall name: {}", hallName);
-        log.info("Hall address: {}", hallAddress);
-
-        Hall hall = new Hall();
-        hall.setAddress(hallAddress);
-        hall.setName(hallName);
-
+    public HtmxResponse addHall(@ModelAttribute HallModel hallModel) {
+        Hall hall=hallMapper.toHall(hallModel);
         hallService.create(hall);
-
         return HtmxResponse.builder().trigger("update").build();
     }
 
     @HxRequest
     @GetMapping("/editForm/{id}")
     public String editForm(@PathVariable("id") Long id, Model model) {
-        Hall hall = hallService.findById(id);
-        model.addAttribute("hall", hall);
+        HallModel hallModel = hallMapper.toModel(hallService.findById(id));
+        model.addAttribute("hallModel", hallModel);
         return "/fragments/halls/editHallForm::editHall";
-    }
-
-    @HxRequest
-    @GetMapping("/cancel")
-    public HtmxResponse onCancel() {
-        return HtmxResponse.builder().trigger("update").build();
     }
 
     @HxRequest
@@ -88,28 +70,18 @@ public class HallController {
 
     @HxRequest
     @PutMapping
-    public HtmxResponse update(@RequestParam("id") Long id, @RequestParam("name") String name, @RequestParam("address") String address) {
-
-        log.info("Hall id: {}", id);
-        log.info("Hall name: {}", name);
-        log.info("Hall address: {}", address);
-
-        Hall hall = new Hall();
-        hall.setName(name);
-        hall.setAddress(address);
-        hall.setId(id);
-        hallService.update(id, hall);
-
+    public HtmxResponse update(@ModelAttribute HallModel hallModel) {
+        Hall hall=hallMapper.toHall(hallModel);
+        hallService.update(hall);
         return HtmxResponse.builder().trigger("update").build();
     }
 
     @HxRequest
     @GetMapping("/selectView")
     public String selectView(@RequestParam(name = "selectedHallId", required = false) Long id, Model model){
-        List<Hall> halls = hallService.findAll();
-        model.addAttribute("halls", halls);
+        List<HallModel> hallModels = hallService.findAll().stream().map(hallMapper::toModel).toList();
+        model.addAttribute("hallModels", hallModels);
         model.addAttribute("selectedHallId", id);
         return "/fragments/halls/hallSelectView:: hallSelectView";
     }
-
 }
