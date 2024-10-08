@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="roomTableView" id="roomTableReplace" hx:get="@{/rooms/roomTableView}"
+     hx-trigger="change[event.target.id=='hallId'] from:body, updateRooms" hx-include="#hallId" hx-swap="outerHTML">
+
+
+    <div th:if="${hallId==null}">Выберите концертный зал</div>
+    <div id="placeAddForm">
+        <button th:if="${hallId != null}" type="button" class="btn btn-primary btn-sm"
+                hx:get="@{/rooms/addForm}"
+                hx-swap="outerHTML"
+                hx-on:click="disablePanel('table');">Добавить
+        </button>
+    </div>
+    <div th:if="${not #lists.isEmpty(rooms)}">
+
+
+        <table class="table table-sm caption-top text-center" id="table">
+            <caption>
+
+            </caption>
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>Название</th>
+                <th>Действие</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="room: ${rooms}" >
+                <td th:text="${room.id}"></td>
+                <td th:text="${room.name}"></td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-sm"
+                            hx:get="@{/rooms/editForm/{id}(id=${room.id})}" hx-target="closest tr" hx-swap="outerHTML"
+                            hx-on:click="disablePanel('table');
+                                         disablePanel('placeAddForm');">Редактировать</button>
+                    <button type="button" class="btn btn-danger btn-sm" hx:delete="@{/rooms/{id}(id=${room.id})}">
+                        Удалить
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</body>
+</html>

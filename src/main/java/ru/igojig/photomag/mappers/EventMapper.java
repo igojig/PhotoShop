@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.igojig.photomag.entities.Event;
 import ru.igojig.photomag.model.EventEditModel;
 import ru.igojig.photomag.model.EventTableModel;
-import ru.igojig.photomag.services.Hall.HallService;
 import ru.igojig.photomag.services.Room.RoomService;
 import ru.igojig.photomag.services.festival.FestivalService;
 
@@ -16,9 +15,6 @@ public abstract class EventMapper {
 
     @Autowired
     protected FestivalService festivalService;
-
-    @Autowired
-    protected HallService hallService;
 
     @Autowired
     protected RoomService roomService;

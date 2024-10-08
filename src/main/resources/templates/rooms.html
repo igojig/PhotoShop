@@ -10,23 +10,14 @@
 <header th:replace="~{fragments/navigation :: navigation(link='rooms')}"></header>
 
 <main>
-    <div class="container">
-        <div class="row">
-            <div class="col text-center">
-                <p class="lead text-primary">Концертные залы</p>
-                <div th:replace="~{fragments/rooms/hallDataView :: hallDataView}" ></div>
-            </div>
-            <div class="col-8 text-center">
-                <p class="lead text-primary">Помещения</p>
-                <div th:replace="~{fragments/rooms/roomTable :: roomTable}"></div>
-            </div>
-        </div>
+    <div hx:get="@{/rooms}" hx-trigger="load" hx-swap="outerHTML">
+
     </div>
 
 
 </main>
 
 
-    <div th:replace="~{fragments/footer::footer}"></div>
+<div th:replace="~{fragments/footer::footer}"></div>
 </body>
 </html>

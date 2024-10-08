@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>roomView</title>
+</head>
+<body>
+<div class="container" th:fragment="roomView">
+    <div class="row">
+        <div class="col text-center">
+            <p class="lead text-primary">Концертные залы</p>
+            <div hx:get="@{/halls/selectView}"
+                 hx-trigger="load"
+                 hx-swap="outerHTML" id="hallId"></div>
+        </div>
+        <div class="col-8 text-center">
+            <p class="lead text-primary">Помещения</p>
+            <div hx:get="@{/rooms/roomTableView}"
+                 hx-trigger="load"
+                 hx-swap="outerHTML"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
