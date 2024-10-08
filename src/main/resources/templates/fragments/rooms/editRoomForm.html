@@ -7,7 +7,7 @@
 <body>
 <tr th:fragment="editRoomForm">
     <td colspan="3">
-        <form th:object="${room}" hx:put="@{/rooms}" hx-swap="none" hx-include="#hallId">
+        <form th:object="${roomModel}" hx:put="@{/rooms}" hx-swap="none" hx-include="#hallId">
             <input type="hidden" th:field="*{id}">
             <div class="row justify-content-start">
                 <div class="col">

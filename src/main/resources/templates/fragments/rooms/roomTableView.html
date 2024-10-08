@@ -17,7 +17,7 @@
                 hx-on:click="disablePanel('table');">Добавить
         </button>
     </div>
-    <div th:if="${not #lists.isEmpty(rooms)}">
+    <div th:if="${not #lists.isEmpty(roomModels)}">
 
 
         <table class="table table-sm caption-top text-center" id="table">
@@ -32,7 +32,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="room: ${rooms}" >
+            <tr th:each="room: ${roomModels}" >
                 <td th:text="${room.id}"></td>
                 <td th:text="${room.name}"></td>
                 <td>
