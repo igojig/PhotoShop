@@ -1,6 +1,5 @@
 package ru.igojig.photomag.services.image;
 
-import ru.igojig.photomag.dtos.ImageDto;
 import ru.igojig.photomag.entities.Image;
 
 import java.util.List;

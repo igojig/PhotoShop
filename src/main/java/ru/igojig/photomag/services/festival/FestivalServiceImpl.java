@@ -2,7 +2,6 @@ package ru.igojig.photomag.services.festival;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.igojig.photomag.entities.Festival;
 import ru.igojig.photomag.repositories.FestivalRepository;
@@ -22,18 +21,15 @@ public class FestivalServiceImpl implements FestivalService {
     @Override
     @Transactional
     public Festival create(Festival festival) {
-        Festival fest=new Festival();
-//        fest.setId(festival.getId());
-        fest.setName(festival.getName());
-//        festival.setId(null);
-        return festivalRepository.save(fest);
+
+        return festivalRepository.save(festival);
     }
 
     @Override
     @Transactional
-    public Festival update(Long id, String festivalName) {
-        Festival newFest = festivalRepository.findById(id).orElseThrow();
-        newFest.setName(festivalName);
+    public Festival update(Festival festival) {
+        Festival newFest = festivalRepository.findById(festival.getId()).orElseThrow();
+        newFest.setName(festival.getName());
         return newFest;
     }
 

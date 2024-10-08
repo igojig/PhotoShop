@@ -3,7 +3,6 @@ package ru.igojig.photomag.services.image;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.igojig.photomag.dtos.ImageDto;
 import ru.igojig.photomag.entities.Event;
 import ru.igojig.photomag.entities.Image;
 import ru.igojig.photomag.repositories.ImageRepository;

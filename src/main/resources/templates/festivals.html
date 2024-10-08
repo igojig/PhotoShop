@@ -11,7 +11,8 @@
 
 <main>
 
-    <div th:replace="~{fragments/festivals/festivalTable :: festivalTable}" ></div>
+    <div hx:get="@{/festivals}" hx-trigger="load" hx-swap="outerHTML"></div>
+<!--    <div th:replace="~{fragments/festivals/festivalTable :: festivalTable}" ></div>-->
 
 </main>
 

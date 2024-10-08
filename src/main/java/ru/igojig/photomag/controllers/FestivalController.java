@@ -7,9 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.igojig.photomag.converters.FestivalConverter;
-import ru.igojig.photomag.dtos.FestivalDto;
 import ru.igojig.photomag.entities.Festival;
+import ru.igojig.photomag.mappers.FestivalMapper;
+import ru.igojig.photomag.model.FestivalModel;
 import ru.igojig.photomag.services.festival.FestivalService;
 
 import java.util.List;
@@ -21,90 +21,67 @@ import java.util.List;
 public class FestivalController {
 
     private final FestivalService festivalService;
-    private final FestivalConverter festivalConverter;
-
+    private final FestivalMapper festivalMapper;
 
     @GetMapping
-    public String festivalView(Model model) {
-
-        List<FestivalDto> list = festivalService.findAll().stream()
-                .map(festivalConverter::entityToDto)
-                .toList();
-
-        model.addAttribute("festivals", list);
-
-        return "festivals";
+    public String festivalView() {
+        return "/festivals";
     }
 
     @HxRequest
     @GetMapping
     public String festivalTable(Model model){
-        List<FestivalDto> list = festivalService.findAll().stream()
-                .map(festivalConverter::entityToDto)
-                .toList();
 
-        model.addAttribute("festivals", list);
+        List<FestivalModel> festivalModels = festivalService.findAll().stream().map(festivalMapper::toModel).toList();
+        model.addAttribute("festivalModels", festivalModels);
 
         return "fragments/festivals/festivalTable :: festivalTable";
     }
 
     @HxRequest
-    @GetMapping("/updateForm/{id}")
+    @GetMapping("/editForm/{id}")
     public String getEditForm(@PathVariable("id") Long id, Model model) {
-        Festival festival = festivalService.findById(id);
-        model.addAttribute("festival", festival);
+        FestivalModel festivalModel = festivalMapper.toModel(festivalService.findById(id));
+        model.addAttribute("festivalModel", festivalModel);
         return "fragments/festivals/editFestivalForm :: editFestival";
     }
 
     @HxRequest
-    @PutMapping("/{id}")
-    public HtmxResponse update(@PathVariable("id") Long id, @RequestParam("festivalName") String name) {
-        log.info("festival id {}", id);
-        log.info("festival name {}", name);
-        festivalService.update(id, name);
-        return HtmxResponse.builder().trigger(HtmxFestivalEvents.ON_UPDATE.name()).build();
+    @PutMapping()
+    public HtmxResponse update(@ModelAttribute FestivalModel festivalModel) {
+       Festival festival=festivalMapper.toFestival(festivalModel);
+        festivalService.update(festival);
+        return HtmxResponse.builder().trigger("update").build();
     }
 
     @HxRequest
     @DeleteMapping("/{id}")
     public HtmxResponse delete(@PathVariable("id") Long id){
         festivalService.deleteById(id);
-        return HtmxResponse.builder().trigger(HtmxFestivalEvents.ON_DELETE.name()).build();
+        return HtmxResponse.builder().trigger("update").build();
     }
 
     @HxRequest
     @GetMapping("/addForm")
     public String getAddForm(Model model){
-        model.addAttribute("festivalDto", new FestivalDto());
+        FestivalModel festivalModel=FestivalModel.builder().build();
+        model.addAttribute("festivalModel", festivalModel);
         return "fragments/festivals/addFestivalForm :: addFestival";
     }
 
-
     @HxRequest
     @PostMapping()
-    public HtmxResponse addFestival(@RequestParam("festivalName") String festivalName){
-        log.info("Festival name: {}", festivalName);
-
-        Festival festival=new Festival();
-        festival.setName(festivalName);
-
+    public HtmxResponse addFestival(@ModelAttribute FestivalModel festivalModel){
+        Festival festival=festivalMapper.toFestival(festivalModel);
         festivalService.create(festival);
-
-        return HtmxResponse.builder().trigger(HtmxFestivalEvents.ON_ADD.name()).build();
-
-    }
-
-    @HxRequest
-    @GetMapping("/cancel")
-    public HtmxResponse onCancel(){
-        return HtmxResponse.builder().trigger(HtmxFestivalEvents.ON_CANCEL.name()).build();
+        return HtmxResponse.builder().trigger("update").build();
     }
 
     @HxRequest
     @GetMapping("/selectView")
     public String selectView(@RequestParam(name = "selectedFestivalId", required = false) Long id, Model model ){
-        List<Festival> festivals=festivalService.findAll();
-        model.addAttribute("festivals", festivals);
+        List<FestivalModel> festivalModels=festivalService.findAll().stream().map(festivalMapper::toModel).toList();
+        model.addAttribute("festivalModels", festivalModels);
         model.addAttribute("selectedFestivalId", id);
         return "/fragments/festivals/festivalSelectView::festivalSelectView";
     }

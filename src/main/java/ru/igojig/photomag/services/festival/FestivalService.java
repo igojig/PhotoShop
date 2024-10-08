@@ -1,9 +1,6 @@
 package ru.igojig.photomag.services.festival;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import ru.igojig.photomag.entities.Festival;
-import ru.igojig.photomag.repositories.FestivalRepository;
 
 import java.util.List;
 
@@ -13,7 +10,7 @@ public interface FestivalService {
 
     Festival create(Festival festival);
 
-    Festival update(Long id, String festivalName);
+    Festival update(Festival festival);
 
     void deleteById(Long id);
 

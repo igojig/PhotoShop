@@ -27,10 +27,7 @@ public class EventController {
     private final EventMapper eventMapper;
 
     @GetMapping()
-    public String eventTable(Model model) {
-        List<EventTableModel> eventTableModels = eventService.findAll()
-                .stream().map(eventMapper::toTableModel).toList();
-        model.addAttribute("eventTableModels", eventTableModels);
+    public String eventTable() {
         return "/events";
     }
 
