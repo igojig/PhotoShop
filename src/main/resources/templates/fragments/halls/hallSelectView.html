@@ -7,10 +7,10 @@
 <body>
 <div th:fragment="hallSelectView">
     <label for="hallId" class="form-label from-label-sm">Концертный зал</label>
-    <select class="form-select form-select-sm" size="10" name="hallId" id="hallId">
+    <select class="form-select form-select-sm" size="10" th:field="*{hallId}" id="hallId">
         <option th:each="hall: ${hallModels}"
                 th:text="${hall.name}" th:value="${hall.id}"
-                th:selected="${hall.id} == ${selectedHallId}"></option>
+                ></option>
     </select>
 </div>
 </body>

@@ -7,7 +7,9 @@
 <body>
 <div class="container" th:fragment="editEvent" hx:get="@{/events}" hx-trigger="update from:body" hx-swap="outerHTML" id="editEvent">
     <form th:object="${eventEditModel}" hx:put="@{/events}" hx-swap="none">
+<!--        -->
         <input type="hidden" th:field="*{id}">
+
         <div class="row">
             <div class="col-4">
                 <label for="eventName" class="form-label from-label-sm">Название</label>
@@ -22,19 +24,19 @@
         </div>
         <div class="row mt-1">
             <div class="col-4">
-<!--                <div th:replace="~{fragments/events/data/festivalData::festivalData}"></div>-->
-                <div hx:get="@{/events/festivalView(selectedFestivalId=${eventEditModel.festivalId})}" hx-trigger="load" hx-swap="outerHTML"></div>
+                <div th:replace="~{fragments/festivals/festivalSelectView::festivalSelectView}"></div>
+<!--                <div hx:get="@{/events/festivalView(selectedFestivalId=${eventEditModel.festivalId})}" hx-trigger="load" hx-swap="outerHTML"></div>-->
                 <p th:if="${#fields.hasErrors('festivalId')}" th:errors="*{festivalId}" style="color: red;"></p>
             </div>
             <div class="col-4">
-<!--                <div th:replace="~{fragments/events/data/hallData::hallData}"></div>-->
-                <div hx:get="@{/events/hallView(selectedHallId=${eventEditModel.hallId})}" hx-trigger="load" hx-swap="outerHTML"></div>
+                <div th:replace="~{fragments/halls/hallSelectView::hallSelectView}"></div>
+<!--                <div hx:get="@{/events/hallView(selectedHallId=${eventEditModel.hallId})}" hx-trigger="load" hx-swap="outerHTML"></div>-->
                 <p th:if="${#fields.hasErrors('hallId')}" th:errors="*{hallId}" style="color: red;"></p>
             </div>
             <div class="col-4">
-<!--                <div th:replace="~{fragments/events/data/roomData::roomData}"></div>-->
-                <div hx:get="@{/events/roomViewByHallId(selectedRoomId=${eventEditModel.roomId}, hallId=${eventEditModel.hallId})}"
-                     hx-trigger="load" hx-swap="outerHTML"></div>
+                <div th:replace="~{fragments/rooms/roomSelectView::roomSelectView}"></div>
+<!--                <div hx:get="@{/events/roomViewByHallId(selectedRoomId=${eventEditModel.roomId}, hallId=${eventEditModel.hallId})}"-->
+<!--                     hx-trigger="load" hx-swap="outerHTML"></div>-->
                 <p th:if="${#fields.hasErrors('roomId')}" th:errors="*{roomId}" style="color: red;"></p>
             </div>
         </div>

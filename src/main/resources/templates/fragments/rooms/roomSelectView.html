@@ -5,12 +5,14 @@
     <title>roomSelectView</title>
 </head>
 <body>
-<div th:fragment="roomSelectView">
+<div th:fragment="roomSelectView" hx-trigger="change[event.target.id=='hallId'] from:body"
+     hx:get="@{/events/roomViewByHallId}" hx-include="#hallId" hx-swap="outerHTML">
     <label for="roomId" class="form-label from-label-sm">Помещение</label>
-    <select class="form-select form-select-sm" size="10" id="roomId" name="roomId">
+    <select class="form-select form-select-sm" size="10" id="roomId" name="roomId" >
         <option th:each="room: ${roomModels}"
                 th:text="${room.name}" th:value="${room.id}"
-                th:selected="${room.id} == ${selectedRoomId}"></option>
+                th:selected="${room.id} == *{roomId}"
+                ></option>
 
     </select>
 </div>

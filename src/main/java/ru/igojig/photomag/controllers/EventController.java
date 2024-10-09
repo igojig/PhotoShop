@@ -10,12 +10,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import ru.igojig.photomag.entities.Event;
 import ru.igojig.photomag.mappers.EventMapper;
-import ru.igojig.photomag.model.EventEditModel;
-import ru.igojig.photomag.model.EventTableModel;
+import ru.igojig.photomag.mappers.FestivalMapper;
+import ru.igojig.photomag.mappers.HallMapper;
+import ru.igojig.photomag.mappers.RoomMapper;
+import ru.igojig.photomag.model.*;
+import ru.igojig.photomag.services.Hall.HallService;
+import ru.igojig.photomag.services.Room.RoomService;
 import ru.igojig.photomag.services.event.EventService;
+import ru.igojig.photomag.services.festival.FestivalService;
 
 import java.util.List;
 
@@ -28,6 +32,12 @@ public class EventController {
 
     private final EventService eventService;
     private final EventMapper eventMapper;
+    private final FestivalService festivalService;
+    private final FestivalMapper festivalMapper;
+    private final HallService hallService;
+    private final HallMapper hallMapper;
+    private final RoomService roomService;
+    private final RoomMapper roomMapper;
 
     @GetMapping()
     public String eventTable() {
@@ -49,6 +59,7 @@ public class EventController {
     public String addForm(Model model) {
         EventEditModel eventEditModel = EventEditModel.builder().build();
         model.addAttribute("eventEditModel", eventEditModel);
+        populateModel(model);
         return "/fragments/events/editEvent::editEvent";
     }
 
@@ -57,44 +68,28 @@ public class EventController {
     public String editForm(@PathVariable("id") Long id, Model model) {
         EventEditModel eventEditModel = eventMapper.toEditModel(eventService.findById(id));
         model.addAttribute("eventEditModel", eventEditModel);
-
+        populateModel(model, eventEditModel.getHallId());
         return "/fragments/events/editEvent::editEvent";
     }
 
     @HxRequest
     @GetMapping("/roomViewByHallId")
-    public String getRooms(@RequestParam(name = "hallId", required = false) Long hallId, @RequestParam(name = "selectedRoomId", required = false) Long selectedRoomId, Model model) {
-        model.addAttribute("selectedRoomId", selectedRoomId);
-        model.addAttribute("hallId", hallId);
-        return "/fragments/events/roomView:: roomView";
-    }
-
-    @HxRequest
-    @GetMapping("/festivalView")
-    public String getFestivals(@RequestParam(name = "selectedFestivalId", required = false) Long selectedFestivalId, Model model) {
-        model.addAttribute("selectedFestivalId", selectedFestivalId);
-
-        return "/fragments/events/festivalView::festivalView";
-    }
-
-    @HxRequest
-    @GetMapping("/hallView")
-    public String getHalls(@RequestParam(name = "selectedHallId", required = false) Long selectedHallId, Model model) {
-        model.addAttribute("selectedHallId", selectedHallId);
-
-        return "/fragments/events/hallView::hallView";
+    public String getRooms(@RequestParam(name = "hallId") Long hallId, Model model) {
+        populateModel(model, hallId);
+        return "/fragments/rooms/roomSelectView::roomSelectView";
     }
 
     @HxRequest
     @PutMapping
-    public HtmxResponse updateEvent(@ModelAttribute @Valid EventEditModel eventEditModel, BindingResult bindingResult) {
+    public HtmxResponse updateEvent(@Valid @ModelAttribute("eventEditModel") EventEditModel eventEditModel,
+                                    BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
-            ModelAndView modelAndView = new ModelAndView("/fragments/events/editEvent::editEvent");
+            populateModel(model, eventEditModel.getHallId());
             return HtmxResponse.builder()
                     .reswap(HtmxReswap.outerHtml())
                     .retarget("#editEvent")
-                    .view(modelAndView)
+                    .view("/fragments/events/editEvent::editEvent")
                     .build();
         }
 
@@ -113,6 +108,20 @@ public class EventController {
     public HtmxResponse delete(@PathVariable("id") Long id) {
         eventService.deleteById(id);
         return HtmxResponse.builder().trigger("update").build();
+    }
+
+
+    private void populateModel(Model model){
+        List<FestivalModel> festivalModels = festivalService.findAll().stream().map(festivalMapper::toModel).toList();
+        List<HallModel> hallModels = hallService.findAll().stream().map(hallMapper::toModel).toList();
+        model.addAttribute("festivalModels", festivalModels);
+        model.addAttribute("hallModels", hallModels);
+    }
+
+    private void populateModel(Model model, Long hallId) {
+        populateModel(model);
+        List<RoomModel> roomModels = roomService.findAllByHallId(hallId).stream().map(roomMapper::toModel).toList();
+        model.addAttribute("roomModels", roomModels);
     }
 
 }
