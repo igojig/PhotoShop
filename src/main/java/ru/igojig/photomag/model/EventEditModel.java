@@ -1,5 +1,7 @@
 package ru.igojig.photomag.model;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,11 +14,20 @@ import java.time.LocalDate;
 @Builder
 public class EventEditModel {
     private Long id;
+
+    @NotBlank
     private String name;
 
+    @NotNull
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private LocalDate startDate;
+
+    @NotNull
     private Long festivalId;
+
+    @NotNull
     private Long hallId;
+
+    @NotNull
     private Long roomId;
 }

@@ -1,19 +1,22 @@
 package ru.igojig.photomag.controllers;
 
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxResponse;
+import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxReswap;
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import ru.igojig.photomag.entities.Event;
 import ru.igojig.photomag.mappers.EventMapper;
 import ru.igojig.photomag.model.EventEditModel;
 import ru.igojig.photomag.model.EventTableModel;
 import ru.igojig.photomag.services.event.EventService;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -28,6 +31,7 @@ public class EventController {
 
     @GetMapping()
     public String eventTable() {
+        log.info("controller");
         return "/events";
     }
 
@@ -43,7 +47,7 @@ public class EventController {
     @HxRequest
     @GetMapping("/add")
     public String addForm(Model model) {
-        EventEditModel eventEditModel = EventEditModel.builder().startDate(LocalDate.now()).build();
+        EventEditModel eventEditModel = EventEditModel.builder().build();
         model.addAttribute("eventEditModel", eventEditModel);
         return "/fragments/events/editEvent::editEvent";
     }
@@ -83,9 +87,18 @@ public class EventController {
 
     @HxRequest
     @PutMapping
-    public HtmxResponse updateEvent(@ModelAttribute EventEditModel eventEditModel) {
+    public HtmxResponse updateEvent(@ModelAttribute @Valid EventEditModel eventEditModel, BindingResult bindingResult) {
 
-        Event event = eventMapper.toEvent(eventEditModel);
+        if (bindingResult.hasErrors()) {
+            ModelAndView modelAndView = new ModelAndView("/fragments/events/editEvent::editEvent");
+            return HtmxResponse.builder()
+                    .reswap(HtmxReswap.outerHtml())
+                    .retarget("#editEvent")
+                    .view(modelAndView)
+                    .build();
+        }
+
+        Event event = eventMapper.toEntity(eventEditModel);
         if (event.getId() == null) {
             eventService.create(event);
         } else {
@@ -93,12 +106,11 @@ public class EventController {
         }
 
         return HtmxResponse.builder().trigger("update").build();
-
     }
 
     @HxRequest
     @DeleteMapping("/{id}")
-    public HtmxResponse delete(@PathVariable("id") Long id){
+    public HtmxResponse delete(@PathVariable("id") Long id) {
         eventService.deleteById(id);
         return HtmxResponse.builder().trigger("update").build();
     }

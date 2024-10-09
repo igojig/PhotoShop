@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.igojig.photomag.entities.Event;
 import ru.igojig.photomag.repositories.EventRepository;
-import ru.igojig.photomag.services.Room.RoomService;
-import ru.igojig.photomag.services.festival.FestivalService;
 
 import java.util.List;
 
@@ -17,9 +15,6 @@ import java.util.List;
 public class EventServiceImpl implements EventService {
 
     private final EventRepository eventRepository;
-
-    private final RoomService roomService;
-    private final FestivalService festivalService;
 
     @Override
     public List<Event> findAll() {
@@ -34,37 +29,17 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional
     public Event create(Event event) {
-//        Event newEvent=new Event();
-//        newEvent.setId(event.getId());
-//        newEvent.setName(event.getName());
-//        newEvent.setStartDate(event.getStartDate());
-//        newEvent.setFestival(event.getFestival());
-//        newEvent.setRoom(event.getRoom());
-
-//        Festival fest=festivalService.findById(festId);
-//        Room room=roomService.findById(roomId);
-//        event.setRoom(room);
-//        event.setFestival(fest);
         return eventRepository.save(event);
     }
 
     @Override
     @Transactional
     public Event update(Event event) {
-        log.info("Before update");
         Event updEvent=eventRepository.findById(event.getId()).orElseThrow();
-//        Festival festival=festivalService.findById(event.getFestival().getId());
-//        Room room=roomService.findById(event.getRoom().getId());
-//        updEvent.setName(event.getName());
-//        updEvent.setStartDate(event.getStartDate());
-//        updEvent.setFestival(festival);
-//        updEvent.setRoom(room);
         updEvent.setName(event.getName());
         updEvent.setStartDate(event.getStartDate());
         updEvent.setRoom(event.getRoom());
         updEvent.setFestival(event.getFestival());
-        log.info("after update");
-
         return updEvent;
     }
 

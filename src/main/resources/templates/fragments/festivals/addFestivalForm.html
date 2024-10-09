@@ -7,16 +7,18 @@
 <body>
 
 <div th:fragment="addFestival">
-    <form class="row" hx:post="@{/festivals}" hx-swap="none" th:object="${festivalModel}">
-        <input  type="hidden" th:field="*{id}">
-        <div class="col-5">
-            <input type="text" class="form-control form-control-sm" th:field="*{name}">
-        </div>
-        <div class="col-auto">
-            <button type="submit" class="btn btn-primary btn-sm">Добавить</button>
-        </div>
-        <div class="col-auto">
-            <button type="button" class="btn btn-secondary btn-sm" hx-on:click="htmx.trigger('#festivalTable','update')">Отменить</button>
+    <form hx:post="@{/festivals}" hx-swap="none" th:object="${festivalModel}">
+        <div class="row">
+            <input type="hidden" th:field="*{id}">
+            <div class="col-5">
+                <input type="text" class="form-control form-control-sm" th:field="*{name}">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary btn-sm">Добавить</button>
+                <button type="button" class="btn btn-secondary btn-sm"
+                        hx-on:click="htmx.trigger('#festivalTable','update')">Отменить
+                </button>
+            </div>
         </div>
     </form>
 </div>

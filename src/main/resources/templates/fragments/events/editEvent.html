@@ -12,25 +12,30 @@
             <div class="col-4">
                 <label for="eventName" class="form-label from-label-sm">Название</label>
                 <input type="text" class="form-control form-control-sm" id="eventName" th:field="*{name}">
+                <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red;"></p>
             </div>
             <div class="col-auto">
                 <label for="eventDate" class="form-label from-label-sm">Дата</label>
-                <input type="date" class="form-control form-control-sm" id="eventDate" th:field="*{startDate}">
+                <input type="date"  class="form-control form-control-sm" id="eventDate" th:field="*{startDate}">
+                <p th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" style="color: red;"></p>
             </div>
         </div>
         <div class="row mt-1">
             <div class="col-4">
 <!--                <div th:replace="~{fragments/events/data/festivalData::festivalData}"></div>-->
                 <div hx:get="@{/events/festivalView(selectedFestivalId=${eventEditModel.festivalId})}" hx-trigger="load" hx-swap="outerHTML"></div>
+                <p th:if="${#fields.hasErrors('festivalId')}" th:errors="*{festivalId}" style="color: red;"></p>
             </div>
             <div class="col-4">
 <!--                <div th:replace="~{fragments/events/data/hallData::hallData}"></div>-->
                 <div hx:get="@{/events/hallView(selectedHallId=${eventEditModel.hallId})}" hx-trigger="load" hx-swap="outerHTML"></div>
+                <p th:if="${#fields.hasErrors('hallId')}" th:errors="*{hallId}" style="color: red;"></p>
             </div>
             <div class="col-4">
 <!--                <div th:replace="~{fragments/events/data/roomData::roomData}"></div>-->
                 <div hx:get="@{/events/roomViewByHallId(selectedRoomId=${eventEditModel.roomId}, hallId=${eventEditModel.hallId})}"
-                     hx-trigger="load" hx-swap="outerHTML">></div>
+                     hx-trigger="load" hx-swap="outerHTML"></div>
+                <p th:if="${#fields.hasErrors('roomId')}" th:errors="*{roomId}" style="color: red;"></p>
             </div>
         </div>
         <div class="row mt-1">

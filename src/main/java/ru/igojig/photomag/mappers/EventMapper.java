@@ -31,5 +31,5 @@ public abstract class EventMapper {
 
     @Mapping(target = "festival", expression = "java(festivalService.findById(eventEditModel.getFestivalId()))" )
     @Mapping(target = "room", expression = "java(roomService.findById(eventEditModel.getRoomId()))")
-    public abstract Event toEvent(EventEditModel eventEditModel);
+    public abstract Event toEntity(EventEditModel eventEditModel);
 }
