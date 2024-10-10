@@ -7,6 +7,9 @@ import ru.igojig.photomag.model.HallModel;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface HallMapper {
+//    @Mapping(target = "hallId", source = "id")
     HallModel toModel(Hall hall);
-    Hall toHall(HallModel hallModel);
+
+//    @Mapping(target = "id", source = "hallId")
+    Hall toEntity(HallModel hallModel);
 }

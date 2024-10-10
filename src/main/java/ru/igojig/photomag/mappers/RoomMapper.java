@@ -7,8 +7,10 @@ import ru.igojig.photomag.model.RoomModel;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface RoomMapper {
-
+//    @Mapping(target = "roomId", source = "id")
     public RoomModel toModel(Room room);
-    public Room toRoom(RoomModel roomModel);
+
+//    @Mapping(target = "id", source = "roomId")
+    public Room toEntity(RoomModel roomModel);
 
 }

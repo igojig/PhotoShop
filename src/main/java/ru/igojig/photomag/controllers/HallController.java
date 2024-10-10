@@ -48,7 +48,7 @@ public class HallController {
     @HxRequest
     @PostMapping
     public HtmxResponse addHall(@ModelAttribute HallModel hallModel) {
-        Hall hall=hallMapper.toHall(hallModel);
+        Hall hall=hallMapper.toEntity(hallModel);
         hallService.create(hall);
         return HtmxResponse.builder().trigger("update").build();
     }
@@ -71,7 +71,7 @@ public class HallController {
     @HxRequest
     @PutMapping
     public HtmxResponse update(@ModelAttribute HallModel hallModel) {
-        Hall hall=hallMapper.toHall(hallModel);
+        Hall hall=hallMapper.toEntity(hallModel);
         hallService.update(hall);
         return HtmxResponse.builder().trigger("update").build();
     }
