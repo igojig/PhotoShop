@@ -55,42 +55,16 @@
             <version>2.0.2</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>io.github.wimdeblauwe</groupId>-->
-<!--            <artifactId>htmx-spring-boot</artifactId>-->
-<!--            <version>3.5.1</version>-->
-<!--        </dependency>-->
-
         <dependency>
             <groupId>io.github.wimdeblauwe</groupId>
             <artifactId>htmx-spring-boot-thymeleaf</artifactId>
             <version>3.5.1</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->
-        <!--		<dependency>-->
-        <!--			<groupId>org.modelmapper</groupId>-->
-        <!--			<artifactId>modelmapper</artifactId>-->
-        <!--			<version>3.2.0</version>-->
-        <!--		</dependency>-->
-
-
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
         </dependency>
-
-
-        <!--		<dependency>-->
-        <!--			<groupId>org.flywaydb</groupId>-->
-        <!--			<artifactId>flyway-mysql</artifactId>-->
-        <!--		</dependency>-->
-
-        <!--		<dependency>-->
-        <!--			<groupId>com.mysql</groupId>-->
-        <!--			<artifactId>mysql-connector-j</artifactId>-->
-        <!--			<scope>runtime</scope>-->
-        <!--		</dependency>-->
 
         <dependency>
             <groupId>org.postgresql</groupId>

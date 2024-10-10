@@ -23,10 +23,10 @@ public class FestivalController {
     private final FestivalService festivalService;
     private final FestivalMapper festivalMapper;
 
-    @GetMapping
-    public String festivalView() {
-        return "/festivals";
-    }
+//    @GetMapping
+//    public String festivalView() {
+//        return "/festivals";
+//    }
 
     @HxRequest
     @GetMapping
@@ -75,14 +75,5 @@ public class FestivalController {
         Festival festival=festivalMapper.toFestival(festivalModel);
         festivalService.create(festival);
         return HtmxResponse.builder().trigger("update").build();
-    }
-
-    @HxRequest
-    @GetMapping("/selectView")
-    public String selectView(@RequestParam(name = "selectedFestivalId", required = false) Long id, Model model ){
-        List<FestivalModel> festivalModels=festivalService.findAll().stream().map(festivalMapper::toModel).toList();
-        model.addAttribute("festivalModels", festivalModels);
-        model.addAttribute("selectedFestivalId", id);
-        return "/fragments/festivals/festivalSelectView::festivalSelectView";
     }
 }

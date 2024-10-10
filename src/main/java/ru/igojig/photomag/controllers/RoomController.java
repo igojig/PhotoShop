@@ -28,10 +28,10 @@ public class RoomController {
     private final HallService hallService;
     private final HallMapper hallMapper;
 
-    @GetMapping
-    public String getView(Model model) {
-        return "/rooms";
-    }
+//    @GetMapping
+//    public String getView(Model model) {
+//        return "/rooms";
+//    }
 
     @HxRequest
     @GetMapping
@@ -86,17 +86,4 @@ public class RoomController {
         roomService.deleteById(id);
         return HtmxResponse.builder().trigger("updateRooms").build();
     }
-
-//    @HxRequest
-//    @GetMapping("/selectViewByHallId")
-//    public String selectViewByHallId(@RequestParam(name = "selectedRoomId", required = false) Long id,
-//                                     @RequestParam(name = "hallId", required = false) Long hallId, Model model) {
-//        List<Room> rooms = hallId == null ? new ArrayList<>() : roomService.findAllByHallId(hallId);
-//        List<RoomModel> roomModels=rooms.stream().map(roomMapper::toModel).toList();
-//        model.addAttribute("roomModels", roomModels);
-//        model.addAttribute("selectedRoomId", id);
-//        return "/fragments/rooms/roomSelectView::roomSelectView";
-//    }
-
-
 }

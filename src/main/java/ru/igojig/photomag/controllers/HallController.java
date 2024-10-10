@@ -23,10 +23,10 @@ public class HallController {
     private final HallService hallService;
     private final HallMapper hallMapper;
 
-    @GetMapping()
-    public String hallView(Model model) {
-        return "/halls";
-    }
+//    @GetMapping()
+//    public String hallView(Model model) {
+//        return "/halls";
+//    }
 
     @HxRequest
     @GetMapping
@@ -74,14 +74,5 @@ public class HallController {
         Hall hall=hallMapper.toEntity(hallModel);
         hallService.update(hall);
         return HtmxResponse.builder().trigger("update").build();
-    }
-
-    @HxRequest
-    @GetMapping("/selectView")
-    public String selectView(@RequestParam(name = "selectedHallId", required = false) Long id, Model model){
-        List<HallModel> hallModels = hallService.findAll().stream().map(hallMapper::toModel).toList();
-        model.addAttribute("hallModels", hallModels);
-        model.addAttribute("selectedHallId", id);
-        return "/fragments/halls/hallSelectView:: hallSelectView";
     }
 }

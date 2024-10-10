@@ -39,18 +39,21 @@ public class EventController {
     private final RoomService roomService;
     private final RoomMapper roomMapper;
 
-    @GetMapping()
-    public String eventTable() {
-        log.info("controller");
-        return "/events";
-    }
+//    @GetMapping()
+//    public String eventTable() {
+//        log.info("controller");
+//        return "/events";
+//    }
 
     @HxRequest
     @GetMapping
     public String eventTableHx(Model model) {
         List<EventTableModel> eventTableModels = eventService.findAll()
-                .stream().map(eventMapper::toTableModel).toList();
+                .stream()
+                .map(eventMapper::toTableModel)
+                .toList();
         model.addAttribute("eventTableModels", eventTableModels);
+
         return "/fragments/events/eventTable:: eventTable";
     }
 

@@ -9,3 +9,14 @@ function disablePanel(id) {
     }
      //  panel.style.opacity = 0.3; //or any other value
 }
+
+function setActiveLink(event){
+    let currentLink = document.querySelector('[aria-selected=true]');
+                                  if(currentLink!=null){
+                                    currentLink.setAttribute('aria-selected', 'false');
+                                    currentLink.classList.remove('active');
+                                  }
+                                    let newLink = event.target;
+                                    newLink.setAttribute('aria-selected', 'true');
+                                    newLink.classList.add('active');
+}

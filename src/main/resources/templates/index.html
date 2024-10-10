@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Магазн</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.css">
+</head>
+<body >
+    <nav th:replace="~{fragments/navigation :: navigation}"></nav>
+
+    <main>
+        <div id="indexReplace"></div>
+    </main>
+
+
+    <div th:replace="~{fragments/footer::footer}"></div>
+</body>
+</html>
