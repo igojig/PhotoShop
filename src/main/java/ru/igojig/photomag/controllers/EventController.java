@@ -16,10 +16,12 @@ import ru.igojig.photomag.mappers.FestivalMapper;
 import ru.igojig.photomag.mappers.HallMapper;
 import ru.igojig.photomag.mappers.RoomMapper;
 import ru.igojig.photomag.model.*;
+import ru.igojig.photomag.repositories.ImageDataRepository;
 import ru.igojig.photomag.services.Hall.HallService;
 import ru.igojig.photomag.services.Room.RoomService;
 import ru.igojig.photomag.services.event.EventService;
 import ru.igojig.photomag.services.festival.FestivalService;
+import ru.igojig.photomag.services.image.ImageService;
 
 import java.util.List;
 
@@ -38,6 +40,9 @@ public class EventController {
     private final HallMapper hallMapper;
     private final RoomService roomService;
     private final RoomMapper roomMapper;
+
+    private final ImageService imageService;
+    private final ImageDataRepository imageDataRepository;
 
 //    @GetMapping()
 //    public String eventTable() {

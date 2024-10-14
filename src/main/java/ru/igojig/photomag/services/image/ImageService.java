@@ -5,11 +5,13 @@ import ru.igojig.photomag.entities.Image;
 import java.util.List;
 
 public interface ImageService {
-    List<Image> findAll();
+//    List<Image> findAll();
 
-    Image create(Long id, Image image);
+//    Image create(Long id, Image image);
 
     List<Image> findAllByEventId(Long id);
 
-    Image findById(Long id);
+    void save(Image image);
+
+//    Image findById(Long id);
 }

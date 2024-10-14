@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 public class ImageData {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -35,7 +34,7 @@ public class ImageData {
     @Column(name = "base64_content", nullable = false)
     private byte[] base64Content;
 
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @OneToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "image_id")
     private Image image;

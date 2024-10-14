@@ -26,6 +26,11 @@ public class EventServiceImpl implements EventService {
         return eventRepository.findById(id).orElseThrow();
     }
 
+    public Event getReferenceById(Long id){
+//        return eventRepository.findByIdWithoutDetails(id).orElseThrow();
+        return eventRepository.getReferenceById(id);
+    }
+
     @Override
     @Transactional
     public Event create(Event event) {

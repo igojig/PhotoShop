@@ -17,6 +17,8 @@ public interface EventService {
 
     void deleteById(Long id);
 
+    Event getReferenceById(Long id);
+
     Long getCount();
 
     List<Event> findAllOld();

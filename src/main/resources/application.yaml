@@ -4,12 +4,10 @@ server:
 #    servlet:
 #        context-path: /api
 spring:
-  thymeleaf:
-    encoding: UTF-8
   servlet:
     multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
+      max-file-size: 15MB
+      max-request-size: 15MB
   flyway:
     baselineOnMigrate: true
   jpa:
