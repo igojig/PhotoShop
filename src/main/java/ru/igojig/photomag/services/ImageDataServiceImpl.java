@@ -11,6 +11,8 @@ import ru.igojig.photomag.repositories.ImageDataRepository;
 import ru.igojig.photomag.services.event.EventService;
 import ru.igojig.photomag.utils.ImageUtils;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class ImageDataServiceImpl implements ImageDataService{
@@ -34,12 +36,16 @@ public class ImageDataServiceImpl implements ImageDataService{
     public void create(MultipartFile file, Long eventId) {
         Event event = eventService.findById(eventId);
 
+        LocalDateTime dateTime=imageUtils.extractDateTime(file);
+
         byte[] resizedImg = imageUtils.resize(file);
+
 
         Image image = new Image();
         image.setEvent(event);
         image.setFileName(file.getOriginalFilename());
         image.setFilePath(makePath(event));
+        image.setDateTime(dateTime);
 
         ImageData imageData = new ImageData();
         imageData.setBase64Content(resizedImg);

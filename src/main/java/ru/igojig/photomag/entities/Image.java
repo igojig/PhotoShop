@@ -1,7 +1,5 @@
 package ru.igojig.photomag.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,6 +27,9 @@ public class Image {
 
     @Column(name = "file_path", nullable = false)
     private String filePath;
+
+    @Column(name = "date_time", nullable = false)
+    private LocalDateTime dateTime;
 
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

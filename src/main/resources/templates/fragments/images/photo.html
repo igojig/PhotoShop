@@ -32,57 +32,76 @@
         </tbody>
     </table>
 
-    <div class="d-flex flex-wrap gap-2" >
-        <div class="card" style="width: 20rem;" th:each="img: ${imageShowModels}">
-            <img th:src="@{/images/{id}(id=${img.id})}" alt="">
-            <div class="card-footer">
-                <small class="text-body-secondary" th:text="${img.fileName}"></small>
-                <small class="text-body-secondary" th:text="${img.filePath}"></small>
-            </div>
-        </div>
+    <div class="d-flex flex-wrap gap-2">
+        <figure class="figure text-center" style="width: 10rem;" th:each="img: ${imageShowModels}">
+            <img th:src="@{/images/{id}(id=${img.id})}"
+                 class="img-thumbnail figure-img img-fluid rounded object-fit-scale" style="max-height: 8rem;"
+                 alt="...">
+            <figcaption class="figure-caption">
+                <div class="text-body-secondary" th:text="${img.fileName}"></div>
+                <div class="text-body-secondary" th:text="${img.filePath}"></div>
+                <div class="text-body-secondary" th:text="${#temporals.format(img.dateTime,'dd-MM-yyyy HH:mm:ss')}"></div>
+                <div class="form-check text-start">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Начало блока
+                    </label>
+                </div>
+            </figcaption>
+        </figure>
+        <!--        <div class="card" style="width: 15rem;" th:each="img: ${imageShowModels}">-->
+        <!--            <img th:src="@{/images/{id}(id=${img.id})}" class="object-fit-contain" alt="">-->
+
+        <!--            <div class="card-footer">-->
+        <!--                <div class="text-body-secondary" th:text="${img.fileName}"></div>-->
+        <!--                <div class="text-body-secondary" th:text="${img.filePath}"></div>-->
+        <!--            </div>-->
+        <!--        </div>-->
     </div>
 
-<!--    <div class="container">-->
-<!--        <table>-->
-<!--            <thead>-->
-<!--            <tr>-->
-<!--                <th>id</th>-->
-<!--                <th>Name</th>-->
-<!--                <th>Path</th>-->
-<!--                <th>Image</th>-->
-<!--            </tr>-->
-<!--            </thead>-->
-<!--            <tbody>-->
-<!--                <tr th:each="img: ${imageDataList}">-->
-<!--                    <td th:text="${img.image.id}"></td>-->
-<!--                    <td th:text="${img.image.fileName}"></td>-->
-<!--                    <td th:text="${img.image.filePath}"></td>-->
-<!--                    <td>-->
-<!--                        <img th:src="${'data:image/jpeg;charset=utf-8;base64,' + img.base64Content}" alt="">-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--            </tbody>-->
-<!--        </table>-->
-<!--    </div>-->
+    <!--    <div class="container">-->
+    <!--        <table>-->
+    <!--            <thead>-->
+    <!--            <tr>-->
+    <!--                <th>id</th>-->
+    <!--                <th>Name</th>-->
+    <!--                <th>Path</th>-->
+    <!--                <th>Image</th>-->
+    <!--            </tr>-->
+    <!--            </thead>-->
+    <!--            <tbody>-->
+    <!--                <tr th:each="img: ${imageDataList}">-->
+    <!--                    <td th:text="${img.image.id}"></td>-->
+    <!--                    <td th:text="${img.image.fileName}"></td>-->
+    <!--                    <td th:text="${img.image.filePath}"></td>-->
+    <!--                    <td>-->
+    <!--                        <img th:src="${'data:image/jpeg;charset=utf-8;base64,' + img.base64Content}" alt="">-->
+    <!--                    </td>-->
+    <!--                </tr>-->
+    <!--            </tbody>-->
+    <!--        </table>-->
+    <!--    </div>-->
 
-<!--    <form id="uploadForm" >-->
-<!--        <input type="file" multiple id="fileInput" onchange="">-->
-<!--        <button type="button" class="btn btn-success mt-2" onclick="uploadFiles()">Upload</button>-->
-<!--    </form>-->
-<!--    <div id="progressBarContainer" class="mt-4" style="display: none;">-->
-<!--        <div class="progress">-->
-<!--            <div id="progressBar" class="progress-bar bg-success" role="progressbar"-->
-<!--                 style="width: 100%;">100%</div>-->
-<!--        </div>-->
-<!--    </div>-->
+    <!--    <form id="uploadForm" >-->
+    <!--        <input type="file" multiple id="fileInput" onchange="">-->
+    <!--        <button type="button" class="btn btn-success mt-2" onclick="uploadFiles()">Upload</button>-->
+    <!--    </form>-->
+    <!--    <div id="progressBarContainer" class="mt-4" style="display: none;">-->
+    <!--        <div class="progress">-->
+    <!--            <div id="progressBar" class="progress-bar bg-success" role="progressbar"-->
+    <!--                 style="width: 100%;">100%</div>-->
+    <!--        </div>-->
+    <!--    </div>-->
 
     <div id="main-container">
         <h3 class="text-info">Spring Boot file upload with advance progress-bar using Ajax</h3>
         <hr>
         <div style="margin-bottom: 20px">
-            <input type="file" id="files" multiple style="margin-bottom: 20px" />
+            <input type="file" id="files" multiple style="margin-bottom: 20px"/>
             <input type="hidden" id="eventId" name="eventId" th:value="${eventTableModel.id}">
-            <button class="btn btn-primary" type="button" onclick="startUploading()" ><i class="fa fa-upload"></i> Upload file</button>
+            <button class="btn btn-primary" type="button" onclick="startUploading()"><i class="fa fa-upload"></i> Upload
+                file
+            </button>
         </div>
         <div id="upload-status-container">
             <div id="upload-header">
@@ -102,7 +121,6 @@
 
     </script>
 </div>
-
 
 
 </body>
