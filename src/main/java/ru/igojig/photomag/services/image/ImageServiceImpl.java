@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.igojig.photomag.entities.Image;
+import ru.igojig.photomag.model.ImageUpdateModel;
 import ru.igojig.photomag.repositories.ImageRepository;
 import ru.igojig.photomag.services.event.EventService;
 
@@ -38,10 +39,27 @@ public class ImageServiceImpl implements ImageService {
         return imageRepository.findAllByEventId(id);
     }
 
+    @Override
+    public List<Image> findAllByEventIdOrderByTimeAsc(Long id) {
+        return  imageRepository.findAllByEventIdOrderByTimeAsc(id);
+    }
+
     @Transactional
     @Override
     public void save(Image image) {
         imageRepository.save(image);
+    }
+
+    @Override
+    @Transactional
+    public void updateBatch(List<ImageUpdateModel> imageUpdateModels) {
+        for (ImageUpdateModel imageUpdateModel : imageUpdateModels) {
+           Image updImage= imageRepository.findById(imageUpdateModel.getId()).orElseThrow();
+           updImage.setDateTime(imageUpdateModel.getDateTime());
+           updImage.setFilePath(imageUpdateModel.getFilePath());
+           updImage.setFileName(imageUpdateModel.getFileName());
+           updImage.setPerformanceNumber(imageUpdateModel.getPerformanceNumber());
+        }
     }
 
 //    @Override

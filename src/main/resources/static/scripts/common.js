@@ -153,3 +153,25 @@ function setActiveLink(event){
               $("#progress-bar-container").slideDown();
           }
       }
+
+      function divideByPerformances(){
+
+//        let root=document.getElementById('performancesBlock');
+        let elements=document.getElementsByClassName('form-check-input');
+        let event={
+            eventId: document.getElementById('eventId').value,
+            performancesNumbers: []
+        };
+
+        for (let elem of elements){
+            if(elem.checked==true){
+                 event.performancesNumbers.push(elem.value);
+            }
+        }
+
+        return event;
+//        var xhr = new XMLHttpRequest();
+//        xhr.open("POST", "/images/selectedPerformances");
+//        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+//        xhr.send(JSON.stringify(event));
+      }

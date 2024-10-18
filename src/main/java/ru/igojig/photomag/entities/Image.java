@@ -31,6 +31,8 @@ public class Image {
     @Column(name = "date_time", nullable = false)
     private LocalDateTime dateTime;
 
+    @Column(name = "performance_number", columnDefinition="default -1")
+    private Long performanceNumber;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id", nullable = false)

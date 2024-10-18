@@ -40,12 +40,12 @@ public class ImageDataServiceImpl implements ImageDataService{
 
         byte[] resizedImg = imageUtils.resize(file);
 
-
         Image image = new Image();
         image.setEvent(event);
         image.setFileName(file.getOriginalFilename());
         image.setFilePath(makePath(event));
         image.setDateTime(dateTime);
+        image.setPerformanceNumber(-1L);
 
         ImageData imageData = new ImageData();
         imageData.setBase64Content(resizedImg);

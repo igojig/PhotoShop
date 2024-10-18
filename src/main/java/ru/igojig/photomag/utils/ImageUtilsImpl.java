@@ -15,6 +15,7 @@ import net.coobird.thumbnailator.resizers.configurations.Rendering;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
+import ru.igojig.photomag.model.ImageUpdateModel;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Slf4j
 @Component
@@ -125,12 +127,12 @@ public class ImageUtilsImpl implements ImageUtils {
 
 
         try (InputStream inputStream = file.getInputStream()) {
-            Thumbnails.of(file.getInputStream())
-                    .watermark(Positions.CENTER, watermark, 0.3f, 30)
+            Thumbnails.of(inputStream)
+                    .watermark(Positions.CENTER, watermark, 0.2f)
 
                     .antialiasing(Antialiasing.ON)
                     .dithering(Dithering.ENABLE)
-                    .outputQuality(0.85)
+                    .outputQuality(0.8)
                     .rendering(Rendering.QUALITY)
                     .resizer(Resizers.PROGRESSIVE)
                     .size(640, 480)
@@ -184,6 +186,52 @@ public class ImageUtilsImpl implements ImageUtils {
 //        }
 
 
+
+    }
+
+    @Override
+    public void generatePerformances(List<ImageUpdateModel> imageUpdateModels, Set<Long> perfNumbers) {
+
+        Map<Long, List<Long>> map = new HashMap<>();
+        List<Long> curPerformances = new ArrayList<>();
+
+//        //TODO проверка двух списков
+//        if(imageShowModels.size()!=performances.getPerformances().size()){
+//            throw new RuntimeException("сипсок изображений некорректен");
+//        }
+
+
+
+        long currentPerformanceCount = 0;
+        for (ImageUpdateModel localImageUpdateModel : imageUpdateModels) {
+
+            if (perfNumbers.contains(localImageUpdateModel.getId())) {
+                perfNumbers.remove(localImageUpdateModel.getId());
+                if (!curPerformances.isEmpty()) {
+                    map.put(currentPerformanceCount, new ArrayList<>(curPerformances));
+                    log.info("map {}", map);
+                }
+                currentPerformanceCount++;
+                curPerformances.clear();
+                curPerformances.add(localImageUpdateModel.getId());
+                continue;
+            }
+            curPerformances.add(localImageUpdateModel.getId());
+        }
+
+        map.put(currentPerformanceCount, curPerformances);
+        log.info("map {}", map);
+
+        map.forEach((key, value) -> value
+                .forEach(s -> imageUpdateModels.stream()
+                        .filter(imageUpdateModel -> imageUpdateModel.getId().equals(s))
+                        .findFirst()
+                .ifPresent(imageUpdateModel -> imageUpdateModel.setPerformanceNumber(key))));
+
+//        for (Map.Entry<Long, List<Long>> longListEntry : map.entrySet()) {
+//            longListEntry.getValue().forEach(s-> imageUpdateModels.stream().filter(imageUpdateModel -> imageUpdateModel.getId().equals(s)).findFirst()
+//                    .ifPresent(imageUpdateModel -> imageUpdateModel.setPerformanceNumber(longListEntry.getKey())));
+//        }
 
     }
 

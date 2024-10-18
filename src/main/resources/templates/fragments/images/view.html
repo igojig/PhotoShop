@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>view</title>
+</head>
+<body>
+
+<div th:fragment="view" class="container" id="view" hx:get="@{/images/view}" hx-trigger="view_update from:body" hx-target="#view" hx-swap="outerHTML" hx-include="#eventId">
+    <div class="text-center">
+        <button type="button" class="btn btn-sm btn-primary"
+                hx:post="@{/images/selectedPerformances}"
+                hx-disabled-elt="this, #img_nav_view"
+                hx-vals="js:{...divideByPerformances()}"
+                hx-indicator="#spinner"
+                hx-swap="none"
+        >Разбить на блоки </button>
+        <img  id="spinner" class="htmx-indicator" th:src="@{/assets/icons8-process.gif}"/>
+    </div>
+
+    <div class="container" th:each="entry: ${imageModelMap}">
+        <p th:text="'Номер: ' + ${entry.key}" class="bg-info"></p>
+        <div class="d-flex flex-wrap gap-2"  id="performancesBlock" >
+
+            <figure class="figure text-center" style="width: 10rem;" th:each="img :${entry.value}">
+                <img th:src="@{/images/{id}(id=${img.id})}"
+                     class="img-thumbnail figure-img img-fluid rounded object-fit-scale" style="max-height: 8rem;"
+                     alt="...">
+                <figcaption class="figure-caption">
+                    <div class="text-body-secondary" th:text="${img.fileName}"></div>
+                    <div class="text-body-secondary" th:text="${img.filePath}"></div>
+                    <div class="text-body-secondary" th:text="${#temporals.format(img.dateTime,'dd-MM-yyyy HH:mm:ss')}"></div>
+                    <div class="form-check text-start">
+                        <input class="form-check-input" type="checkbox"  th:id="'checkBlockStart_' + ${img.id}" th:value="${img.id}">
+                        <label class="form-check-label" th:for="'checkBlockStart_' + ${img.id}">
+                            Начало блока
+                        </label>
+                    </div>
+                </figcaption>
+            </figure>
+            <!--        <div class="card" style="width: 15rem;" th:each="img: ${imageShowModels}">-->
+            <!--            <img th:src="@{/images/{id}(id=${img.id})}" class="object-fit-contain" alt="">-->
+
+            <!--            <div class="card-footer">-->
+            <!--                <div class="text-body-secondary" th:text="${img.fileName}"></div>-->
+            <!--                <div class="text-body-secondary" th:text="${img.filePath}"></div>-->
+            <!--            </div>-->
+            <!--        </div>-->
+        </div>
+    </div>
+
+
+</div>
+
+
+</body>
+</html>

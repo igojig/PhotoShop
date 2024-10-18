@@ -37,10 +37,11 @@
             <td>
                 <div class="row">
                     <div class="col-auto">
-                        <button type="button" class="btn btn-info btn-sm"
+                        <button type="button" class="btn btn-info btn-sm" id="photoButton"
                                 hx:get="@{/images/{eventId}(eventId=${event.id})}"
-                                hx-swap="outerHTML"
-                                hx-target="#eventFormReplace">Фото</button>
+                                hx-target="#indexReplace"
+                                hx-swap="innerHTML"
+                                >Фото</button>
                         <button type="button" class="btn btn-primary btn-sm"
                                 hx:get="@{/events/{id}(id=${event.id})}" hx-swap="outerHTML"
                                 hx-target="#eventFormReplace">Редактировать</button>

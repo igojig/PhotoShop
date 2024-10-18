@@ -5,7 +5,7 @@
     <title>Navigation</title>
 </head>
 <body>
-<div th:fragment="navigation" hx:get="@{/nav}" hx-swap="outerHTML" hx-trigger="navUpdate" id="navUpdate"  hx-swap-oob="true">
+<div th:fragment="navigation_images" hx:get="@{/nav}" hx-swap="outerHTML" hx-trigger="navUpdate" id="navUpdate" hx-swap-oob="true">
   <nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
@@ -18,23 +18,30 @@
         <ul class="navbar-nav">
           <li class="nav-item">
             <a class="nav-link"  href="#"
-               hx:get="@{/festivals}" hx-trigger="click"  hx-swap="innerHTML" hx-target="#indexReplace"
-               hx-on:click="setActiveLink(event)">Фестивали</a>
+               hx:get="@{/images/uploadForm}" hx-trigger="click"  hx-swap="innerHTML" hx-target="#photo_replace_fragment"
+               hx-on:click="setActiveLink(event)">Загрузка</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link"  href="#" id="img_nav_view"
+               hx:get="@{/images/view}" hx-trigger="click"  hx-include="#eventId" hx-swap="innerHTML" hx-target="#photo_replace_fragment"
+
+               hx-on:click="setActiveLink(event)">Просмотр</a>
+
           </li>
           <li class="nav-item">
             <a class="nav-link"  href="#"
                hx:get="@{/halls}" hx-trigger="click"  hx-swap="innerHTML" hx-target="#indexReplace"
-               hx-on:click="setActiveLink(event)">Концертные залы</a>
+               hx-on:click="setActiveLink(event)">Разбиение на номера</a>
           </li>
           <li class="nav-item">
             <a class="nav-link"  href="#"
                hx:get="@{/rooms}" hx-trigger="click"  hx-swap="innerHTML" hx-target="#indexReplace"
-               hx-on:click="setActiveLink(event)">Помещения</a>
+               hx-on:click="setActiveLink(event)">Редактирование</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-selected="true" href="#"
-               hx:get="@{/events}" hx-trigger="click, load" hx-swap="innerHTML" hx-target="#indexReplace"
-               hx-on:click="setActiveLink(event)" >Мероприятия</a>
+            <a class="nav-link"  href="#"
+               hx:get="@{/images/main}" hx-trigger="click" hx-swap="none" hx-target="#indexReplace"
+               hx-on:click="setActiveLink(event)" >В основное меню</a>
           </li>
         </ul>
       </div>
