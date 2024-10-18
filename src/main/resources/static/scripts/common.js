@@ -158,6 +158,8 @@ function setActiveLink(event){
 
 //        let root=document.getElementById('performancesBlock');
         let elements=document.getElementsByClassName('form-check-input');
+
+
         let event={
             eventId: document.getElementById('eventId').value,
             performancesNumbers: []
@@ -169,9 +171,22 @@ function setActiveLink(event){
             }
         }
 
+//        if(event.performancesNumbers.length==0){
+//            alert("Необходимо выбрать номера");
+//        }
+
         return event;
 //        var xhr = new XMLHttpRequest();
 //        xhr.open("POST", "/images/selectedPerformances");
 //        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 //        xhr.send(JSON.stringify(event));
+      }
+
+      function checkNumbers(){
+        let obj=divideByPerformances();
+        if(obj.performancesNumbers.length!=0){
+            $('#btnProcess').prop('disabled', false);
+        } else {
+            $('#btnProcess').prop('disabled', true);
+        }
       }
