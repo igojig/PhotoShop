@@ -8,6 +8,7 @@ import ru.igojig.photomag.entities.Event;
 import ru.igojig.photomag.entities.Image;
 import ru.igojig.photomag.entities.ImageData;
 import ru.igojig.photomag.repositories.ImageDataRepository;
+import ru.igojig.photomag.services.dropbox.DropBoxService;
 import ru.igojig.photomag.services.event.EventService;
 import ru.igojig.photomag.utils.ImageUtils;
 
@@ -15,10 +16,11 @@ import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
-public class ImageDataServiceImpl implements ImageDataService{
+public class ImageDataServiceImpl implements ImageDataService {
     private final ImageDataRepository imageDataRepository;
     private final EventService eventService;
     private final ImageUtils imageUtils;
+    private final DropBoxService dropBoxService;
 
     @Override
     public ImageData findById(Long id) {
@@ -33,10 +35,10 @@ public class ImageDataServiceImpl implements ImageDataService{
 
     @Transactional
     @Override
-    public void create(MultipartFile file, Long eventId) {
+    public Image create(MultipartFile file, Long eventId) {
         Event event = eventService.findById(eventId);
 
-        LocalDateTime dateTime=imageUtils.extractDateTime(file);
+        LocalDateTime dateTime = imageUtils.extractDateTime(file);
 
         byte[] resizedImg = imageUtils.resize(file);
 
@@ -52,9 +54,12 @@ public class ImageDataServiceImpl implements ImageDataService{
         imageData.setImage(image);
 
        imageDataRepository.save(imageData);
+
+        return image;
+
     }
 
-    private String makePath(Event event){
-       return String.format("%s/%s/%s/%s", event.getFestival().getId(), event.getRoom().getHall().getId(), event.getRoom().getId(), event.getId());
+    private String makePath(Event event) {
+        return String.format("/%s/%s/%s/%s", event.getFestival().getId(), event.getRoom().getHall().getId(), event.getRoom().getId(), event.getId());
     }
 }

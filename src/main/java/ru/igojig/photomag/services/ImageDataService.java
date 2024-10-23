@@ -1,6 +1,7 @@
 package ru.igojig.photomag.services;
 
 import org.springframework.web.multipart.MultipartFile;
+import ru.igojig.photomag.entities.Image;
 import ru.igojig.photomag.entities.ImageData;
 
 
@@ -10,5 +11,5 @@ public interface ImageDataService {
 
     void save(ImageData imageData);
 
-    void create(MultipartFile file, Long eventId);
+    Image create(MultipartFile file, Long eventId);
 }

@@ -50,10 +50,29 @@
       <div style="margin-bottom: 20px">
         <input type="file" id="files" multiple style="margin-bottom: 20px"/>
 <!--        <input type="hidden" id="eventId" name="eventId" th:value="${eventTableModel.id}">-->
-        <button class="btn btn-primary" type="button" onclick="startUploading()"><i class="fa fa-upload"></i> Upload
+        <button class="btn btn-primary" type="button" onclick="upl()"><i class="fa fa-upload"></i> Upload
           file
         </button>
       </div>
+
+      <div class="container invisible" id="uploadInfo">
+        <div class="progress " role="progressbar" >
+          <div class="progress-bar" style="width: 0%"></div>
+        </div>
+
+        <div class="row" id="rowInfo">
+          <div class="col-auto" id="uploadProgressCount">
+<!--  Загружено 0 из 234          -->
+          </div>
+            <div class="col-auto text-danger" id="errorCount">
+
+            </div>
+        </div>
+<!--        -->
+      </div>
+
+
+
       <div id="upload-status-container">
         <div id="upload-header">
           <span id="upload-header-text"></span>

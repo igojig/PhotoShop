@@ -16,12 +16,11 @@ import ru.igojig.photomag.mappers.FestivalMapper;
 import ru.igojig.photomag.mappers.HallMapper;
 import ru.igojig.photomag.mappers.RoomMapper;
 import ru.igojig.photomag.model.*;
-import ru.igojig.photomag.repositories.ImageDataRepository;
 import ru.igojig.photomag.services.Hall.HallService;
 import ru.igojig.photomag.services.Room.RoomService;
+import ru.igojig.photomag.services.dropbox.DropBoxService;
 import ru.igojig.photomag.services.event.EventService;
 import ru.igojig.photomag.services.festival.FestivalService;
-import ru.igojig.photomag.services.image.ImageService;
 
 import java.util.List;
 
@@ -41,8 +40,7 @@ public class EventController {
     private final RoomService roomService;
     private final RoomMapper roomMapper;
 
-    private final ImageService imageService;
-    private final ImageDataRepository imageDataRepository;
+    private final DropBoxService dropBoxService;
 
 //    @GetMapping()
 //    public String eventTable() {
@@ -58,6 +56,28 @@ public class EventController {
                 .map(eventMapper::toTableModel)
                 .toList();
         model.addAttribute("eventTableModels", eventTableModels);
+
+//        ListFolderResult listFolderResult = null;
+//        try {
+//            FullAccount account = client.users().getCurrentAccount();
+//            System.out.println(account.getName().getDisplayName());
+//            listFolderResult = client.files().listFolder("");
+//            while (true) {
+//                for (Metadata metadata : listFolderResult.getEntries()) {
+//                    System.out.println(metadata);
+//                }
+//
+//                if (!listFolderResult.getHasMore()) {
+//                    break;
+//                }
+//
+//                listFolderResult = client.files().listFolderContinue(listFolderResult.getCursor());
+//            }
+//        } catch (DbxException e) {
+//            throw new RuntimeException(e);
+//        }
+
+
 
         return "/fragments/events/eventTable:: eventTable";
     }
