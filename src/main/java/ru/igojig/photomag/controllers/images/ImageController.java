@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.igojig.photomag.components.PerformancesSelection;
 import ru.igojig.photomag.entities.ImageData;
 import ru.igojig.photomag.mappers.EventMapper;
 import ru.igojig.photomag.mappers.ImageMapper;
@@ -38,6 +39,7 @@ public class ImageController {
     private final EventMapper eventMapper;
     private final ImageDataService imageDataService;
     private final ImageUtils imageUtils;
+    private final PerformancesSelection performancesSelection;
 
 
     @HxRequest
@@ -74,23 +76,33 @@ public class ImageController {
 
         model.addAttribute("imageModelMap", imageModelMap);
 
+        log.info("Sssion eventid: {}", performancesSelection.getEventId());
+        performancesSelection.setEventId(eventId);
+        performancesSelection.getImagesId().clear();
+
         return "/fragments/images/view::view";
     }
 
-//
-//    @HxRequest
-//    @GetMapping("/check/{id}")
-//    @ResponseBody
-//    public void check(@PathVariable("id") Long id) {
-//        log.info("check, id={}", id);
-//        log.info("thread {}", Thread.currentThread().getName());
-//
-//        if (performances.contains(id)) {
-//            performances.remove(id);
-//        } else {
-//            performances.add(id);
-//        }
-//    }
+
+
+    @PostMapping("/check")
+    @ResponseBody
+    public void check(@RequestParam("imageId") Long imageId, @RequestParam("checked") boolean checked) {
+
+        log.info("imageId={}", imageId);
+        log.info("checked={}", checked);
+        log.info("thread {}", Thread.currentThread().getName());
+
+        boolean res;
+
+        if(checked){
+         res=   performancesSelection.getImagesId().add(imageId);
+        } else {
+          res=  performancesSelection.getImagesId().remove(imageId);
+        }
+        log.info("result={}", res);
+
+    }
 
 
 

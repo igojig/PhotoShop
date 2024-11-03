@@ -31,7 +31,7 @@
                     <div class="text-body-secondary" th:text="${img.filePath}"></div>
                     <div class="text-body-secondary" th:text="${#temporals.format(img.dateTime,'dd-MM-yyyy HH:mm:ss')}"></div>
                     <div class="form-check text-start">
-                        <input class="form-check-input" type="checkbox" onclick="checkNumbers()" th:id="'checkBlockStart_' + ${img.id}" th:value="${img.id}">
+                        <input class="form-check-input" type="checkbox" onclick="checkNumbers(this)" th:id="'checkBlockStart_' + ${img.id}" th:value="${img.id}">
                         <label class="form-check-label" th:for="'checkBlockStart_' + ${img.id}">
                             Начало блока
                         </label>

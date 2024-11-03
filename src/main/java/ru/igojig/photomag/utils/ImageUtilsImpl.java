@@ -5,6 +5,7 @@ import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
@@ -15,6 +16,7 @@ import net.coobird.thumbnailator.resizers.configurations.Rendering;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
+import ru.igojig.photomag.components.PerformancesSelection;
 import ru.igojig.photomag.model.ImageUpdateModel;
 
 import javax.imageio.ImageIO;
@@ -25,11 +27,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class ImageUtilsImpl implements ImageUtils {
+
+    private final PerformancesSelection performancesSelection;
 
     ThreadLocal<ByteArrayOutputStream> threadLocal = ThreadLocal.withInitial(ByteArrayOutputStream::new);
     BufferedImage watermark;
@@ -190,7 +198,7 @@ public class ImageUtilsImpl implements ImageUtils {
     }
 
     @Override
-    public void generatePerformances(List<ImageUpdateModel> imageUpdateModels, Set<Long> perfNumbers) {
+    public void generatePerformances(List<ImageUpdateModel> imageUpdateModels) {
 
         Map<Long, List<Long>> map = new HashMap<>();
         List<Long> curPerformances = new ArrayList<>();
@@ -205,8 +213,8 @@ public class ImageUtilsImpl implements ImageUtils {
         long currentPerformanceCount = 0;
         for (ImageUpdateModel localImageUpdateModel : imageUpdateModels) {
 
-            if (perfNumbers.contains(localImageUpdateModel.getId())) {
-                perfNumbers.remove(localImageUpdateModel.getId());
+            if (performancesSelection.getImagesId().contains(localImageUpdateModel.getId())) {
+                performancesSelection.getImagesId().remove(localImageUpdateModel.getId());
                 if (!curPerformances.isEmpty()) {
                     map.put(currentPerformanceCount, new ArrayList<>(curPerformances));
                     log.info("map {}", map);
@@ -227,6 +235,8 @@ public class ImageUtilsImpl implements ImageUtils {
                         .filter(imageUpdateModel -> imageUpdateModel.getId().equals(s))
                         .findFirst()
                 .ifPresent(imageUpdateModel -> imageUpdateModel.setPerformanceNumber(key))));
+
+        log.info("performances: {}", performancesSelection.getImagesId());
 
 //        for (Map.Entry<Long, List<Long>> longListEntry : map.entrySet()) {
 //            longListEntry.getValue().forEach(s-> imageUpdateModels.stream().filter(imageUpdateModel -> imageUpdateModel.getId().equals(s)).findFirst()

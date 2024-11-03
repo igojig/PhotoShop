@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.igojig.photomag.components.PerformancesSelection;
 import ru.igojig.photomag.mappers.ImageMapper;
 import ru.igojig.photomag.model.ImageUpdateModel;
 import ru.igojig.photomag.services.image.ImageService;
@@ -25,6 +26,7 @@ public class PerformancesController {
     private final ImageService imageService;
     private final ImageMapper imageMapper;
     private final ImageUtils imageUtils;
+    private final PerformancesSelection performancesSelection;
 
     @HxRequest
     @PostMapping("/selectedPerformances")
@@ -38,7 +40,7 @@ public class PerformancesController {
 
         log.info("model {}", imageUpdateModels);
 
-        imageUtils.generatePerformances(imageUpdateModels, perfNumbers);
+        imageUtils.generatePerformances(imageUpdateModels);
 
         log.info("model {}", imageUpdateModels);
 

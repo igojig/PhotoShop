@@ -21,6 +21,7 @@ public class ImagesUploadInfo {
     @PostConstruct
     public void init(){
         exceptionList=new ArrayList<>();
+        System.out.println("post construct");
     }
 
 }

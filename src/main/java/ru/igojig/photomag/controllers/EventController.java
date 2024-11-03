@@ -18,7 +18,6 @@ import ru.igojig.photomag.mappers.RoomMapper;
 import ru.igojig.photomag.model.*;
 import ru.igojig.photomag.services.Hall.HallService;
 import ru.igojig.photomag.services.Room.RoomService;
-import ru.igojig.photomag.services.dropbox.DropBoxService;
 import ru.igojig.photomag.services.event.EventService;
 import ru.igojig.photomag.services.festival.FestivalService;
 
@@ -40,7 +39,7 @@ public class EventController {
     private final RoomService roomService;
     private final RoomMapper roomMapper;
 
-    private final DropBoxService dropBoxService;
+
 
 //    @GetMapping()
 //    public String eventTable() {

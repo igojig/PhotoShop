@@ -4,6 +4,10 @@ server:
 #    servlet:
 #        context-path: /api
 spring:
+#  cloud:
+#    aws:
+#      s3:
+#        region: us-east-1
   servlet:
     multipart:
       max-file-size: 15MB

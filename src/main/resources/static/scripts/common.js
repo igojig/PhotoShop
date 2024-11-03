@@ -184,13 +184,25 @@ function divideByPerformances() {
     //        xhr.send(JSON.stringify(event));
 }
 
-function checkNumbers() {
+function checkNumbers(elem) {
     let obj = divideByPerformances();
     if (obj.performancesNumbers.length != 0) {
         $('#btnProcess').prop('disabled', false);
     } else {
         $('#btnProcess').prop('disabled', true);
     }
+
+
+        let xhr = new XMLHttpRequest();
+        let formData = new FormData();
+        formData.append("imageId", elem.value);
+        formData.append("checked", elem.checked);
+        xhr.open("POST", "/images/check")
+        xhr.send(formData);
+
+
+    console.log(elem.checked);
+
 }
 
 function upl() {

@@ -5,15 +5,14 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-
 @Component
+@PropertySource("classpath:yandex.yaml")
 @ConfigurationProperties
-@PropertySource("classpath:dropbox.yaml")
 @Data
-public class DropBoxProperties {
-    //    private String secret;
-    private String refreshToken;
-    private String appKey;
-    private String appSecret;
+public class S3Properties {
+    private String aws_access_key_id;
+    private String aws_secret_access_key;
+    private String region;
+    private String url;
+    private String bucket;
 }
-
