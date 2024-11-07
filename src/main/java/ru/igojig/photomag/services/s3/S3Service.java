@@ -26,9 +26,10 @@ public class S3Service {
 
     public void upload(MultipartFile file, Long eventId, Long imageId) {
 
-        String key=makeKey(eventId, imageId, file);
+        log.info("eventId:{}, imageId:{}", eventId, imageId);
 
         try (InputStream is = file.getInputStream()) {
+            String key = makeKey(eventId, imageId, file);
             PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                     .bucket(s3Properties.getBucket())
                     .key(key)
@@ -38,12 +39,14 @@ public class S3Service {
 
             PutObjectResponse putObjectResponse = s3Client.putObject(putObjectRequest, requestBody);
 
+//            throw SdkException.builder().message("123").build();
+//
             log.info("file uploaded {}", putObjectResponse);
 
 
         } catch (IOException | SdkException e) {
             log.error("Error while upload to S3", e);
-            UploadException uploadException=new UploadException(e.getMessage());
+            UploadException uploadException = new UploadException(e.getMessage());
             uploadException.setEventId(eventId);
             uploadException.setImageId(imageId);
             uploadException.setFileName(file.getOriginalFilename());
@@ -52,7 +55,7 @@ public class S3Service {
 
     }
 
-    private String makeKey(Long eventId, Long imageId, MultipartFile file){
+    private String makeKey(Long eventId, Long imageId, MultipartFile file) {
 
         return eventId + "/" + imageId + "." + StringUtils.getFilenameExtension(file.getOriginalFilename());
     }

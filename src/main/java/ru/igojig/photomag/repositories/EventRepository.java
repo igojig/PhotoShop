@@ -13,10 +13,10 @@ import java.util.Optional;
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
 
-    @EntityGraph(attributePaths = {"room", "festival", "room.hall"})
+    @EntityGraph(attributePaths = {"room", "room.hall"})
     List<Event> findAll();
 
-    @EntityGraph(attributePaths = {"room", "festival", "room.hall"})
+    @EntityGraph(attributePaths = {"room", "room.hall"})
     Optional<Event> findById(Long id);
 
     @Query("Select e from Event e where e.id= :eventId")

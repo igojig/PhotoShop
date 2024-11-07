@@ -289,18 +289,18 @@ class Uploader {
         var status = e.currentTarget.status;
         if(status==200){
             $("#uploadProgressCount").text('Загружено: ' + this.currentUploadedFileIndex + ' из: ' + this.totalFilesCount);
-           var htmlRowInfoOk=' <div class="row">'
-                + '<div class="col-auto text-success">' + '№ ' + this.currentUploadedFileIndex + '</div>'
-                + '<div class="col-auto text-success" id="imageId">' + 'id: ' +  e.currentTarget.response.imageId
-                + '</div>'
-                +' <div class="col text-success" id="fileName">' + 'file name: ' + e.currentTarget.response.fileName
-                + '</div>'
-                + '</div>';
-            $('#rowInfo').append(htmlRowInfoOk); 
+//           var htmlRowInfoOk=' <div class="row">'
+//                + '<div class="col-auto text-success">' + '№ ' + this.currentUploadedFileIndex + '</div>'
+//                + '<div class="col-auto text-success" id="imageId">' + 'id: ' +  e.currentTarget.response.imageId
+//                + '</div>'
+//                +' <div class="col text-success" id="fileName">' + 'file name: ' + e.currentTarget.response.fileName
+//                + '</div>'
+//                + '</div>';
+//            $('#rowInfo').append(htmlRowInfoOk);
             
         } 
 
-        // drop box errors
+        // upload to cloud error
         if(status==503){
             $('#errorCount').text('Ошибок загрузки: ' + ++this.errorsCount);
             var htmlRowInfoDropBoxError=' <div class="row">'

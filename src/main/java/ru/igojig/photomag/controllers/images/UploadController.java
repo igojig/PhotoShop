@@ -9,10 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.igojig.photomag.components.ImagesUploadInfo;
 import ru.igojig.photomag.entities.Image;
 import ru.igojig.photomag.exceptions.EventException;
-import ru.igojig.photomag.exceptions.SaveToDropBoxException;
 import ru.igojig.photomag.exceptions.UploadException;
 import ru.igojig.photomag.response.ImageSaveResponse;
 import ru.igojig.photomag.response.ImageUploadErrorResponse;
@@ -29,7 +27,7 @@ public class UploadController {
 //
     private final S3Service s3Service;
 
-    private final ImagesUploadInfo imagesUploadInfo;
+
 
     @Transactional
     @PostMapping("/upload")
@@ -63,7 +61,7 @@ public class UploadController {
     @HxRequest
     @GetMapping("/uploadForm")
     public String uploadForm() {
-        imagesUploadInfo.getExceptionList().clear();
+
         return "fragments/images/uploadForm::uploadForm";
 
     }
@@ -85,7 +83,6 @@ public class UploadController {
     @ResponseBody
     public ResponseEntity<?> uploadError1(EventException e){
         log.error("Upload image error", e);
-        imagesUploadInfo.getExceptionList().add(SaveToDropBoxException.builder().message(e.getMessage()).build());
         return new ResponseEntity<>(ImageUploadErrorResponse.builder().message(e.getMessage()).build(), HttpStatus.NOT_FOUND);
     }
 

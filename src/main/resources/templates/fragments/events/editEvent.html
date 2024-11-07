@@ -23,11 +23,7 @@
             </div>
         </div>
         <div class="row mt-1">
-            <div class="col-4">
-                <div th:replace="~{fragments/festivals/festivalSelectView::festivalSelectView}"></div>
-<!--                <div hx:get="@{/events/festivalView(selectedFestivalId=${eventEditModel.festivalId})}" hx-trigger="load" hx-swap="outerHTML"></div>-->
-                <p th:if="${#fields.hasErrors('festivalId')}" th:errors="*{festivalId}" style="color: red;"></p>
-            </div>
+
             <div class="col-4">
                 <div th:replace="~{fragments/halls/hallSelectView::hallSelectView}"></div>
 <!--                <div hx:get="@{/events/hallView(selectedHallId=${eventEditModel.hallId})}" hx-trigger="load" hx-swap="outerHTML"></div>-->

@@ -12,14 +12,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.igojig.photomag.entities.Event;
 import ru.igojig.photomag.mappers.EventMapper;
-import ru.igojig.photomag.mappers.FestivalMapper;
 import ru.igojig.photomag.mappers.HallMapper;
 import ru.igojig.photomag.mappers.RoomMapper;
-import ru.igojig.photomag.model.*;
+import ru.igojig.photomag.model.EventEditModel;
+import ru.igojig.photomag.model.EventTableModel;
+import ru.igojig.photomag.model.HallModel;
+import ru.igojig.photomag.model.RoomModel;
 import ru.igojig.photomag.services.Hall.HallService;
 import ru.igojig.photomag.services.Room.RoomService;
 import ru.igojig.photomag.services.event.EventService;
-import ru.igojig.photomag.services.festival.FestivalService;
 
 import java.util.List;
 
@@ -32,8 +33,6 @@ public class EventController {
 
     private final EventService eventService;
     private final EventMapper eventMapper;
-    private final FestivalService festivalService;
-    private final FestivalMapper festivalMapper;
     private final HallService hallService;
     private final HallMapper hallMapper;
     private final RoomService roomService;
@@ -139,9 +138,7 @@ public class EventController {
 
 
     private void populateModel(Model model){
-        List<FestivalModel> festivalModels = festivalService.findAll().stream().map(festivalMapper::toModel).toList();
         List<HallModel> hallModels = hallService.findAll().stream().map(hallMapper::toModel).toList();
-        model.addAttribute("festivalModels", festivalModels);
         model.addAttribute("hallModels", hallModels);
     }
 

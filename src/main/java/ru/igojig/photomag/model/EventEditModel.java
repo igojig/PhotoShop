@@ -23,9 +23,6 @@ public class EventEditModel {
     private LocalDate startDate;
 
     @NotNull
-    private Long festivalId;
-
-    @NotNull
     private Long hallId;
 
     @NotNull

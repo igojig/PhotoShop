@@ -16,7 +16,7 @@ public class EventTableModel {
 
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private LocalDate startDate;
-    private String festivalName;
+
     private String hallName;
     private String roomName;
 }

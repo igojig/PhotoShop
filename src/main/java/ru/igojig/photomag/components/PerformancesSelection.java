@@ -19,8 +19,6 @@ public class PerformancesSelection {
     private Long eventId;
     private Set<Long> imagesId;
 
-
-
     @PostConstruct
     public void init(){
       log.info("PerformancesSelection post construct");

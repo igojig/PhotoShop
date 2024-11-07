@@ -45,7 +45,7 @@ public class EventServiceImpl implements EventService {
         updEvent.setName(event.getName());
         updEvent.setStartDate(event.getStartDate());
         updEvent.setRoom(event.getRoom());
-        updEvent.setFestival(event.getFestival());
+
         return updEvent;
     }
 

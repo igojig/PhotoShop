@@ -16,7 +16,6 @@
             <th>id</th>
             <th>Название</th>
             <th>Дата начала</th>
-            <th>Фестиваль</th>
             <th>Концертный зал</th>
             <th>Помещение</th>
         </tr>
@@ -26,7 +25,6 @@
             <td th:text="${eventTableModel.id}"></td>
             <td th:text="${eventTableModel.name}"></td>
             <td th:text="${#temporals.format(eventTableModel.startDate, 'dd-MM-yyyy')}"></td>
-            <td th:text="${eventTableModel.festivalName}"></td>
             <td th:text="${eventTableModel.hallName}"></td>
             <td th:text="${eventTableModel.roomName}"></td>
         </tr>

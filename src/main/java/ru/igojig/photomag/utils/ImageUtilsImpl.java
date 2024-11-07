@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 import ru.igojig.photomag.components.PerformancesSelection;
+import ru.igojig.photomag.exceptions.ResizeException;
 import ru.igojig.photomag.model.ImageUpdateModel;
 
 import javax.imageio.ImageIO;
@@ -39,8 +40,8 @@ public class ImageUtilsImpl implements ImageUtils {
 
     private final PerformancesSelection performancesSelection;
 
-    ThreadLocal<ByteArrayOutputStream> threadLocal = ThreadLocal.withInitial(ByteArrayOutputStream::new);
-    BufferedImage watermark;
+    private final ThreadLocal<ByteArrayOutputStream> threadLocal = ThreadLocal.withInitial(ByteArrayOutputStream::new);
+    private BufferedImage watermark;
 
 
     @Override
@@ -136,8 +137,7 @@ public class ImageUtilsImpl implements ImageUtils {
 
         try (InputStream inputStream = file.getInputStream()) {
             Thumbnails.of(inputStream)
-                    .watermark(Positions.CENTER, watermark, 0.2f)
-
+                    .watermark(Positions.CENTER, watermark, 0.25f)
                     .antialiasing(Antialiasing.ON)
                     .dithering(Dithering.ENABLE)
                     .outputQuality(0.8)
@@ -146,7 +146,8 @@ public class ImageUtilsImpl implements ImageUtils {
                     .size(640, 480)
                     .toOutputStream(baos);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Resize error", e);
+            throw new ResizeException(e.getMessage(), file.getOriginalFilename());
 //            return e.getMessage();
         }
 
@@ -159,7 +160,7 @@ public class ImageUtilsImpl implements ImageUtils {
     @Override
     public LocalDateTime extractDateTime(MultipartFile file) {
 
-        try(InputStream inputStream=file.getInputStream()){
+        try (InputStream inputStream = file.getInputStream()) {
             Metadata metadata = ImageMetadataReader.readMetadata(inputStream);
 //            Iterable<Directory> directories = metadata.getDirectories();
 
@@ -168,8 +169,7 @@ public class ImageUtilsImpl implements ImageUtils {
             LocalDateTime parse = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss"));
             return parse;
 
-        }
-        catch (IOException | ImageProcessingException e){
+        } catch (IOException | ImageProcessingException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
@@ -194,7 +194,6 @@ public class ImageUtilsImpl implements ImageUtils {
 //        }
 
 
-
     }
 
     @Override
@@ -207,7 +206,6 @@ public class ImageUtilsImpl implements ImageUtils {
 //        if(imageShowModels.size()!=performances.getPerformances().size()){
 //            throw new RuntimeException("сипсок изображений некорректен");
 //        }
-
 
 
         long currentPerformanceCount = 0;
@@ -234,7 +232,7 @@ public class ImageUtilsImpl implements ImageUtils {
                 .forEach(s -> imageUpdateModels.stream()
                         .filter(imageUpdateModel -> imageUpdateModel.getId().equals(s))
                         .findFirst()
-                .ifPresent(imageUpdateModel -> imageUpdateModel.setPerformanceNumber(key))));
+                        .ifPresent(imageUpdateModel -> imageUpdateModel.setPerformanceNumber(key))));
 
         log.info("performances: {}", performancesSelection.getImagesId());
 
@@ -246,14 +244,15 @@ public class ImageUtilsImpl implements ImageUtils {
     }
 
     @PostConstruct
-    private void watermark() {
+    private void loadWatermark() {
         try {
-            File file = ResourceUtils.getFile("classpath:static/assets/watermark.png");
+            File file = ResourceUtils.getFile("classpath:assets/watermark.png");
             watermark = ImageIO.read(file);
-            log.info("watermark file loaded");
+            log.info("Watermark file loaded, length: {}", file.length());
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            log.error("Watermark file not loaded", e);
+            throw new RuntimeException("Watermark not loaded");
         }
     }
 
