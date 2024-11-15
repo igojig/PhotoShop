@@ -30,6 +30,7 @@ public class S3Service {
 
         try (InputStream is = file.getInputStream()) {
             String key = makeKey(eventId, imageId, file);
+
             PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                     .bucket(s3Properties.getBucket())
                     .key(key)

@@ -1,4 +1,3 @@
-
 function disablePanel(id) {
     var panel = document.getElementById(id);
     if (panel != null) {
@@ -193,12 +192,12 @@ function checkNumbers(elem) {
     }
 
 
-        let xhr = new XMLHttpRequest();
-        let formData = new FormData();
-        formData.append("imageId", elem.value);
-        formData.append("checked", elem.checked);
-        xhr.open("POST", "/images/check")
-        xhr.send(formData);
+    let xhr = new XMLHttpRequest();
+    let formData = new FormData();
+    formData.append("imageId", elem.value);
+    formData.append("checked", elem.checked);
+    xhr.open("POST", "/images/check")
+    xhr.send(formData);
 
 
     console.log(elem.checked);
@@ -215,20 +214,19 @@ function upl() {
 }
 
 class Uploader {
-    
+
     totalFilesSize = 0;
     totalFilesCount = 0;
     currentUploadedSize = 0;
     fileListArray;
-    errorsCount=0;
-    currentUploadedFileIndex=0;
+    errorsCount = 0;
+    currentUploadedFileIndex = 0;
 
-  
 
     constructor(fileListArray) {
         this.fileListArray = fileListArray;
         this.calcTotal();
-        
+
     }
 
     calcTotal() {
@@ -239,8 +237,8 @@ class Uploader {
     }
 
     upload() {
-       
-        if(this.currentUploadedFileIndex==this.totalFilesCount){
+
+        if (this.currentUploadedFileIndex == this.totalFilesCount) {
             alert('Загрузка завершена');
             return;
         }
@@ -254,7 +252,7 @@ class Uploader {
         xhr.addEventListener("load", this.onLoad.bind(this), false);
         xhr.addEventListener("error", this.onError.bind(this), false);
 
-        fd.append("multipartFile", this.fileListArray[this.currentUploadedFileIndex++]);   
+        fd.append("multipartFile", this.fileListArray[this.currentUploadedFileIndex++]);
 
 
         xhr.open("POST", "/images/upload");
@@ -269,25 +267,25 @@ class Uploader {
 
     onUploadProgress(e) {
         if (e.lengthComputable) {
-           
-                // this.currentUpload += e.total;
-                // console.log("Всего:" +  this.totalFilesSize + " Загружено: "+ this.currentUploadedSize);
-                // console.log("Loaded: " + e.loaded + " Total: " + e.total);
-                // $(".progress-bar").css("width", (e.loaded / e.total * 100).toFixed(2) + "%");
-                this.updateProgress(e);
-            
+
+            // this.currentUpload += e.total;
+            // console.log("Всего:" +  this.totalFilesSize + " Загружено: "+ this.currentUploadedSize);
+            // console.log("Loaded: " + e.loaded + " Total: " + e.total);
+            // $(".progress-bar").css("width", (e.loaded / e.total * 100).toFixed(2) + "%");
+            this.updateProgress(e);
+
         } else {
             alert('unable to compute');
         }
     }
 
     updateProgress(e) {
-        $(".progress-bar").css("width", (e.loaded / e.total*100).toFixed(2) + "%");
+        $(".progress-bar").css("width", (e.loaded / e.total * 100).toFixed(2) + "%");
     }
 
     onLoad(e) {
         var status = e.currentTarget.status;
-        if(status==200){
+        if (status == 200) {
             $("#uploadProgressCount").text('Загружено: ' + this.currentUploadedFileIndex + ' из: ' + this.totalFilesCount);
 //           var htmlRowInfoOk=' <div class="row">'
 //                + '<div class="col-auto text-success">' + '№ ' + this.currentUploadedFileIndex + '</div>'
@@ -297,41 +295,41 @@ class Uploader {
 //                + '</div>'
 //                + '</div>';
 //            $('#rowInfo').append(htmlRowInfoOk);
-            
-        } 
+
+        }
 
         // upload to cloud error
-        if(status==503){
+        if (status == 500) {
             $('#errorCount').text('Ошибок загрузки: ' + ++this.errorsCount);
-            var htmlRowInfoDropBoxError=' <div class="row">'
-            + '<div class="col-auto text-danger">' + '№ ' + this.currentUploadedFileIndex + '</div>'
-            + '<div class="col-auto text-danger" id="imageId">' + 'id: ' +  e.currentTarget.response.imageId
-            + '</div>'
-            +' <div class="col-auto text-danger" id="fileName">' + 'file name: ' + e.currentTarget.response.fileName
-            + '</div>'
-            + '<div class="col text-danger">' + e.currentTarget.response.message + '</div>'
-            + '</div>';
-            $('#rowInfo').append(htmlRowInfoDropBoxError); 
+            var htmlRowInfoDropBoxError = ' <div class="row">'
+                + '<div class="col-auto text-danger">' + '№ ' + this.currentUploadedFileIndex + '</div>'
+                + '<div class="col-auto text-danger" id="imageId">' + 'id: ' + e.currentTarget.response.imageId
+                + '</div>'
+                + ' <div class="col-auto text-danger" id="fileName">' + 'file name: ' + e.currentTarget.response.fileName
+                + '</div>'
+                + '<div class="col text-danger">' + e.currentTarget.response.message + '</div>'
+                + '</div>';
+            $('#rowInfo').append(htmlRowInfoDropBoxError);
         }
 
-        if(status==404){
+        if (status == 404) {
 
         }
-        
-        this.upload();      
+
+        this.upload();
         // console.log("onload: " + s);
     }
 
     onError(e) {
         var s = e.currentTarget.status;
         $('#errorCount').text('Ошибок загрузки: ' + ++this.errorsCount);
-        var error='<div class="row">'
-        + '<div class="col-auto text-danger">' + '№ ' + this.currentUploadedFileIndex + '</div>'
-        + '<div class="col-auto text-danger">' + 'file name: ' + this.fileListArray[this.currentUploadedFileIndex-1].name + '</div>'
-        + '<div class="col text-danger">' + "Ошибка сети " + e.currentTarget.statusText + '</div>'
-        + '</div>';
+        var error = '<div class="row">'
+            + '<div class="col-auto text-danger">' + '№ ' + this.currentUploadedFileIndex + '</div>'
+            + '<div class="col-auto text-danger">' + 'file name: ' + this.fileListArray[this.currentUploadedFileIndex - 1].name + '</div>'
+            + '<div class="col text-danger">' + "Ошибка сети " + e.currentTarget.statusText + '</div>'
+            + '</div>';
         console.log("" + e);
-        this.upload(); 
+        this.upload();
     }
 
 }

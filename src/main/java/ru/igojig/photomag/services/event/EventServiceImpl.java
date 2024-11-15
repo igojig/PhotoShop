@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.igojig.photomag.entities.Event;
-import ru.igojig.photomag.exceptions.EventException;
+import ru.igojig.photomag.exceptions.EventNotFoundException;
 import ru.igojig.photomag.repositories.EventRepository;
 
 import java.util.List;
@@ -24,7 +24,8 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Event findById(Long id) {
-        return eventRepository.findById(id).orElseThrow(()->new EventException("Event not found: " + id));
+        return eventRepository.findById(id)
+                .orElseThrow(()->new EventNotFoundException("Event not found: " + id));
     }
 
     public Event getReferenceById(Long id){
@@ -41,7 +42,8 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional
     public Event update(Event event) {
-        Event updEvent=eventRepository.findById(event.getId()).orElseThrow();
+        Event updEvent=eventRepository.findById(event.getId())
+                .orElseThrow(()->new EventNotFoundException("Event not found: " + event.getId()));
         updEvent.setName(event.getName());
         updEvent.setStartDate(event.getStartDate());
         updEvent.setRoom(event.getRoom());

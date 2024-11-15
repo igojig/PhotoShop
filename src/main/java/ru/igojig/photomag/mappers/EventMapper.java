@@ -6,6 +6,7 @@ import org.mapstruct.MappingConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.igojig.photomag.entities.Event;
 import ru.igojig.photomag.model.EventEditModel;
+import ru.igojig.photomag.model.EventFormModel;
 import ru.igojig.photomag.model.EventTableModel;
 import ru.igojig.photomag.services.Room.RoomService;
 
@@ -25,4 +26,7 @@ public abstract class EventMapper {
 
     @Mapping(target = "room", expression = "java(roomService.findById(eventEditModel.getRoomId()))")
     public abstract Event toEntity(EventEditModel eventEditModel);
+
+    @Mapping(target = "text", source = "name")
+    public abstract EventFormModel toFormModel(Event event);
 }

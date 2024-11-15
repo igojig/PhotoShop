@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Магазин</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.3/css/bootstrap.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">-->
+</head>
+<body >
+<!--    <nav th:replace="~{fragments/navigation :: navigation}"></nav>-->
+
+    <main>
+        <div id="indexReplace"></div>
+    </main>
+
+<div th:fragment="userFilter" class="container">
+    <div class="row">
+        <div class="col-sm-4">
+            <select class="js-select-festival form-select" name="state">
+            </select>
+        </div>
+        <div class="col-sm-auto">
+            <input class="form-control-sm" type="date"/>
+        </div>
+        <div class="col-sm-auto">
+            <label for="timeFrom" class="form-label">С</label>
+            <input class="form-control-sm" type="time" id="timeFrom"/>
+        </div>
+        <div class="col-sm-auto">
+            <label for="timeTo" class="form-label">По:</label>
+            <input class="form-control-sm" type="time" id="timeTo"/>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+    <div th:replace="~{fragments/footer::footer}"></div>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.js-select-festival').select2();
+
+        $.ajax({
+          url: '/users/selectEvents',         /* Куда пойдет запрос */
+        method: 'get',             /* Метод передачи (post или get) */
+        dataType: 'json',          /* Тип данных в ответе (xml, json, script, html). */
+        success: function(data){   /* функция которая будет выполнена после успешного запроса.  */
+          $(".js-select-festival").select2({
+            data: data,
+            language: {
+                noResults: () => 'Ничего не найдено'
+             },
+            placeholder: 'Выберите фестиваль',
+            width: '100%'
+        })           /* В переменной data содержится ответ от index.php. */
+         }
+        }
+        );
+
+    });
+
+
+
+</script>
+</body>
+</html>

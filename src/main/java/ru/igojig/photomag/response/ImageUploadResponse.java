@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class ImageSaveResponse {
+public class ImageUploadResponse {
     private Long imageId;
     private String fileName;
 

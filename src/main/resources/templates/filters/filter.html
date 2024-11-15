@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Filter</title>
+  <script src="/webjars/jquery/3.7.1/jquery.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+</head>
+<body>
+
+<div th:fragment="userFilter" class="container">
+  <div class="row">
+    <div class="col-sm-5">
+      <select class="js-select-festival" name="state">
+        <option value="AL">Alabama</option>
+        <option value="WY">Wyoming</option>
+      </select>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  $(document).ready(function() {
+      $('.js-select-festival').select2();
+
+      $.ajax({
+        url: '/users/selectEvents',         /* Куда пойдет запрос */
+	  method: 'get',             /* Метод передачи (post или get) */
+	  dataType: 'json',          /* Тип данных в ответе (xml, json, script, html). */
+	  success: function(data){   /* функция которая будет выполнена после успешного запроса.  */
+		$(".js-select-festival").select2({
+  data: data,
+  language: {
+        noResults: () => 'Ничего не найдено'
+    },
+    placeholder: 'Выберите фестиваль'
+})           /* В переменной data содержится ответ от index.php. */
+	}
+      }
+      );
+
+  });
+
+
+
+</script>
+
+</body>
+</html>

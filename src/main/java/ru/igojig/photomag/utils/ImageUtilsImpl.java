@@ -136,6 +136,9 @@ public class ImageUtilsImpl implements ImageUtils {
 
 
         try (InputStream inputStream = file.getInputStream()) {
+//            if(true){
+//                throw new ResizeException("Resize exception", "test.jpg");
+//            }
             Thumbnails.of(inputStream)
                     .watermark(Positions.CENTER, watermark, 0.25f)
                     .antialiasing(Antialiasing.ON)

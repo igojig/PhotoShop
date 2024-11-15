@@ -5,92 +5,63 @@
     <title>upload</title>
 </head>
 <body>
-  <div th:fragment="uploadForm">
-    <button class="btn btn-sm btn-primary" hx:get="@{/images/generate}" hx-swap="none">Сгенерировать номера</button>
-
-
-
-    <!--    <div class="container">-->
-    <!--        <table>-->
-    <!--            <thead>-->
-    <!--            <tr>-->
-    <!--                <th>id</th>-->
-    <!--                <th>Name</th>-->
-    <!--                <th>Path</th>-->
-    <!--                <th>Image</th>-->
-    <!--            </tr>-->
-    <!--            </thead>-->
-    <!--            <tbody>-->
-    <!--                <tr th:each="img: ${imageDataList}">-->
-    <!--                    <td th:text="${img.image.id}"></td>-->
-    <!--                    <td th:text="${img.image.fileName}"></td>-->
-    <!--                    <td th:text="${img.image.filePath}"></td>-->
-    <!--                    <td>-->
-    <!--                        <img th:src="${'data:image/jpeg;charset=utf-8;base64,' + img.base64Content}" alt="">-->
-    <!--                    </td>-->
-    <!--                </tr>-->
-    <!--            </tbody>-->
-    <!--        </table>-->
-    <!--    </div>-->
-
-    <!--    <form id="uploadForm" >-->
-    <!--        <input type="file" multiple id="fileInput" onchange="">-->
-    <!--        <button type="button" class="btn btn-success mt-2" onclick="uploadFiles()">Upload</button>-->
-    <!--    </form>-->
-    <!--    <div id="progressBarContainer" class="mt-4" style="display: none;">-->
-    <!--        <div class="progress">-->
-    <!--            <div id="progressBar" class="progress-bar bg-success" role="progressbar"-->
-    <!--                 style="width: 100%;">100%</div>-->
-    <!--        </div>-->
-    <!--    </div>-->
-
+<div th:fragment="uploadForm">
     <div id="main-container">
-      <h3 class="text-info">Spring Boot file upload with advance progress-bar using Ajax</h3>
-      <hr>
-      <div style="margin-bottom: 20px">
-        <input type="file" id="files" multiple style="margin-bottom: 20px"/>
-<!--        <input type="hidden" id="eventId" name="eventId" th:value="${eventTableModel.id}">-->
-        <button class="btn btn-primary" type="button" onclick="upl()"><i class="fa fa-upload"></i> Upload
-          file
-        </button>
-      </div>
 
-      <div class="container invisible" id="uploadInfo">
-        <div class="progress " role="progressbar" >
-          <div class="progress-bar" style="width: 0%"></div>
-        </div>
-
-        <div class="row" id="rowInfo">
-          <div class="col-auto" id="uploadProgressCount">
-<!--  Загружено 0 из 234          -->
-          </div>
-            <div class="col-auto text-danger" id="errorCount">
-
+        <div class="row mb-1">
+            <div class="col-sm-4">
+                <input class="form-control form-control-sm" type="file" id="files" multiple/>
+                <!--        <input type="hidden" id="eventId" name="eventId" th:value="${eventTableModel.id}">-->
+            </div>
+            <div class="col-sm-auto">
+                <button class="btn btn-sm btn-primary" type="button" id="uploadButton">Загрузить на сервер</button>
             </div>
         </div>
-<!--        -->
-      </div>
 
-
-
-      <div id="upload-status-container">
-        <div id="upload-header">
-          <span id="upload-header-text"></span>
-          <i class="action-icon fa fa-window-minimize pull-right" onclick="showHide(this)" title="minimize"></i>
+        <div class="row mb-1" id="filesInfo" hidden="hidden">
+            <div class="col-sm-auto" id="totalFilesSize"></div>
         </div>
-        <div id="progress-bar-container">
-          <table class="table">
-            <tbody></tbody>
-          </table>
+
+
+        <div class="container" id="uploadInfo" hidden="hidden">
+            <div class="progress mb-1" role="progressbar">
+                <div class="progress-bar" style="width: 0%"></div>
+            </div>
+
+            <div class="row" id="rowInfo">
+                <div class="col-4" id="successCount">
+                    <!--  Загружено 0 из 234          -->
+                </div>
+                <div class="col-4 text-danger" id="errorCount">
+                    <!--  ошибок 3-->
+                </div>
+            </div>
+            <!--        -->
         </div>
-      </div>
+
+        <div class="container" id="uploadStatistics">
+
+        </div>
+
+
+        <div id="upload-status-container">
+            <div id="upload-header">
+                <span id="upload-header-text"></span>
+                <i class="action-icon fa fa-window-minimize pull-right" onclick="showHide(this)" title="minimize"></i>
+            </div>
+            <div id="progress-bar-container">
+                <table class="table">
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
-    <script>
+    <script src="scripts/upload.js">
 
 
     </script>
 
-  </div>
+</div>
 </body>
 </html>

@@ -5,10 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class EventException extends RuntimeException {
+public class EventNotFoundException extends RuntimeException {
     private String message;
 
-    public EventException(String message) {
+    public EventNotFoundException(String message) {
         super(message);
         this.message = message;
     }

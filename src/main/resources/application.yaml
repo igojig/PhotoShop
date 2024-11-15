@@ -1,6 +1,8 @@
 #debug: true
 server:
   port: 8080
+  error:
+    include-message: ALWAYS
 #    servlet:
 #        context-path: /api
 spring:
